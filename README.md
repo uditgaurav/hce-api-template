@@ -81,6 +81,9 @@ Now use the given API call to launch chaos with all the tunables mentioned above
 
 Replace the tunables (along with '[]') in the above query template to make it usable. For any issues refer to the <a href="https://developer.harness.io/docs/chaos-engineering">HCE docs</a>.
 
+
+
+
 ## API to Monitor Chaos Experiment
 
 This contains the API to monitor the Chaos Experiment that is this API will help us to wait for the workflow completion.
@@ -95,6 +98,7 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 
 - Please refer the step 1 to know how can we get the values of different tunables.
 
+
 <table>
   <tr>
     <td>
@@ -104,6 +108,7 @@ This contains the API to monitor the Chaos Experiment that is this API will help
     </td>
   </tr>
 </table>
+
 
 Replace the tunables (along with '[]') in the above query template to make it usable.
 
