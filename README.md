@@ -37,7 +37,7 @@ The above tunables are mandatory to provide. You need to replace it in the given
 <li> On the HCE dashboard click on "Settings" and switch to the "Access Key" tab.
 
 You will get this screen:
-
+<br>
 <img alt="settings-image" src="https://user-images.githubusercontent.com/35391335/212264846-3ea0401c-5ab7-4da5-bdb6-8559e1cb9712.png">
 
 <li> Click on "Create Access Key" if you have lost the older one
@@ -53,12 +53,13 @@ For Project ID:
 <li> On the HCE dashboard click on "Project" (as shown in point-1 on the image) and copy the "Project ID". You can also get the project ID from the URL.
 
 Checkout this screen:
-
+<br>
 <img alt="projectid-img" src="https://user-images.githubusercontent.com/35391335/212269753-9023352a-cf21-49df-9097-de4c23ae3766.png">
 
 For Workflow ID:
 
 <li> Click on "three dots" on the workflow and Navigate to the "View Manifest" option. You will get a screen like this:
+<br>
 <img alt="workflow-id-img" src="https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png">
 It will give you the workflow id for the target workflow.
 
