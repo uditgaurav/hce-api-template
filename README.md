@@ -33,9 +33,7 @@ This contains the API to trigger the Chaos Experiment.
 The above tunables are mandatory to provide. You need to replace it in the given API call.
 
 <details open><summary>Looking for details on ACCESS_KEY and ACCESS_ID?</summary>
-
 <br>
-
 <li> On HCE dashboard click on "Settings" and switch to "Access Key" tab.
 
 You will get this screen:
@@ -45,8 +43,9 @@ You will get this screen:
 <li> Click on "Create Access Key" if you have lost the older one
 
 </details>
-
 <br>
+
+Also,
 
 <details open><summary>Looking for details on PROJECT_ID and WORKFLOW_ID?</summary>
 <br>
@@ -69,10 +68,11 @@ It will give you the workflow id for the target workflow.
 
 </details>
 
-<br>
+<br><br>
 
 ```
 curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>/api/' --data-binary '{"query":"mutation reRunChaosWorkFlow($workflowID: String!, $projectID: String!) {reRunChaosWorkFlow(workflowID: $workflowID, projectID: $projectID)}","variables":{"workflowID":"<WORKFLOW_ID>","projectID":"<PROJECT_ID>"}}' --compressed
 ```
-<br>
+
+
 Replace the tunables (along with `<>`) in the above query template to make it usable. For any issues refer the [HCE docs](https://developer.harness.io/docs/chaos-engineering).
