@@ -6,9 +6,9 @@ This contains the APIs to perform a chaos experiment from an automated pipeline
 
 ## Table Of Content
 
-1. [API to Launch Chaos Experiment](https://uditgaurav.github.io/cv/#api-to-launch-chaos-experiment)
-2. [API to Monitor Chaos Experiment](https://uditgaurav.github.io/cv/#api-to-monitor-chaos-experiment)
-3. [API to Validate Resilience Score](https://uditgaurav.github.io/cv/#api-to-validate-resilience-score)
+1. [API to Launch Chaos Experiment](https://uditgaurav.github.io/hce-api-template//#api-to-launch-chaos-experiment)
+2. [API to Monitor Chaos Experiment](https://uditgaurav.github.io/hce-api-template//#api-to-monitor-chaos-experiment)
+3. [API to Validate Resilience Score](https://uditgaurav.github.io/hce-api-template//#api-to-validate-resilience-score)
 
 ## Pre-requisites
 
@@ -86,7 +86,7 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 - `WORKFLOW_ID`
 - `HCE_ENDPOINT`
 
-- Please refer [step 1](https://uditgaurav.github.io/cv/#api-to-launch-chaos-experiment) to know how can we get the values of different tunables.
+- Please refer [step 1](https://uditgaurav.github.io/hce-api-template//#api-to-launch-chaos-experiment) to know how can we get the values of different tunables.
 
 ```
 
@@ -139,7 +139,7 @@ This contains the API to get the resilience score for a workflow run and validat
 - `WORKFLOW_ID`
 - `HCE_ENDPOINT`
 
-- Please refer [step 1](https://uditgaurav.github.io/cv/#api-to-launch-chaos-experiment) to know how can we get the values of different tunables.
+- Please refer [step 1](https://uditgaurav.github.io/hce-api-template//#api-to-launch-chaos-experiment) to know how can we get the values of different tunables.
 
 ```
 
