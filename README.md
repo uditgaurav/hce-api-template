@@ -32,7 +32,7 @@ This contains the API to trigger the Chaos Experiment.
 
 The above tunables are mandatory to provide. You need to replace it in the given API call.
 
-<h3><u>Looking for details on ACCESS_KEY and ACCESS_ID?</u></h3>
+<h3>Looking for details on ACCESS_KEY and ACCESS_ID?</h3>
 
 <li> On HCE dashboard click on "Settings" and switch to "Access Key" tab.
 
@@ -45,7 +45,7 @@ You will get this screen:
 <br>
 
 
-<h3><u>Looking for details on PROJECT_ID and WORKFLOW_ID?</u></h3>
+<h3>Looking for details on PROJECT_ID and WORKFLOW_ID?</h3>
 <br>
 
 For Project ID:
