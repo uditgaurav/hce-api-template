@@ -50,7 +50,7 @@ You will get this screen:
 
 For Project ID:
 
-<li> On the HCE dashboard click on "Project" (as shown in point-1 on the image) and copy the "Project ID". You can also get the project ID from the URL.
+<li> On the HCE dashboard click on "Project" (as shown in point-1 on the image) and copy the "Project ID". You can also get the project ID from the HCE URL at this place.
 
 Checkout this screen:
 
