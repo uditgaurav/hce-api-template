@@ -88,14 +88,11 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 
 - Please refer the step 1 to know how can we get the values of different tunables.
 
-
 ```json
 
 curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
 
 ```
-
-
 
 Replace the tunables (along with '[]') in the above query template to make it usable.
 
