@@ -48,7 +48,7 @@ You will get this screen:
 
 <br>
 
-<details open><summary>Looking for details on ROJECT_ID and WORKFLOW_ID?</summary>
+<details open><summary>Looking for details on PROJECT_ID and WORKFLOW_ID?</summary>
 <br>
 
 For Project ID:
@@ -66,6 +66,7 @@ For Workflow ID:
 <img alt="workflow-id-img" src="https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png">
 
 It will give you the workflow id for the target workflow.
+
 </details>
 
 <br>
