@@ -32,22 +32,21 @@ This contains the API to trigger the Chaos Experiment.
 
 The above tunables are mandatory to provide. You need to replace it in the given API call.
 
-<details open><summary><a href="">Looking for details on ACCESS_KEY and ACCESS_ID?</a></summary>
+<details open><summary>Looking for details on ACCESS_KEY and ACCESS_ID?</summary>
 
 <br>
 
-- On HCE dashboard click on "Settings" and switch to "Access Key" tab.
+<li> On HCE dashboard click on "Settings" and switch to "Access Key" tab.
 
 You will get this screen:
 
-![settings-image](https://user-images.githubusercontent.com/35391335/212264846-3ea0401c-5ab7-4da5-bdb6-8559e1cb9712.png)
+<img alt="settings-image" src="https://user-images.githubusercontent.com/35391335/212264846-3ea0401c-5ab7-4da5-bdb6-8559e1cb9712.png">
 
 - Click on "Create Access Key" if you have lost the older one
 </details>
 <br>
 
-<details open>
-<summary><b><u>Looking for details on <code>PROJECT_ID</code> and <code>WORKFLOW_ID</code>?</b></u></summary>
+<details open><summary>Looking for details on ROJECT_ID and WORKFLOW_ID?</summary>
 <br>
 
 For Project ID:
@@ -56,13 +55,13 @@ For Project ID:
 
 Checkout this screen:
 
-![projectid-img](https://user-images.githubusercontent.com/35391335/212269753-9023352a-cf21-49df-9097-de4c23ae3766.png)
+<img alt="projectid-img" src="https://user-images.githubusercontent.com/35391335/212269753-9023352a-cf21-49df-9097-de4c23ae3766.png">
 
 For Workflow ID:
 
 - Click on "three dots" on the workflow and Navigate to "View Manifest" option. You will get a screen like this:
 
-![workflow-id-img](https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png)
+<img alt="workflow-id-img" src="https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png">
 
 It will give you the workflow id for the target workflow.
 </details>
