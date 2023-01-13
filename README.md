@@ -39,7 +39,7 @@ The above tunables are mandatory to provide. You need to replace it in the given
 You will get this screen:
 
 <img alt="settings-image" src="https://user-images.githubusercontent.com/35391335/212264846-3ea0401c-5ab7-4da5-bdb6-8559e1cb9712.png">
-<br>
+
 <li> Click on "Create Access Key" if you have lost the older one
 
 <br>
@@ -55,13 +55,13 @@ For Project ID:
 Checkout this screen:
 
 <img alt="projectid-img" src="https://user-images.githubusercontent.com/35391335/212269753-9023352a-cf21-49df-9097-de4c23ae3766.png">
-<br>
+
 For Workflow ID:
 
 <li> Click on "three dots" on the workflow and Navigate to the "View Manifest" option. You will get a screen like this:
 
 <img alt="workflow-id-img" src="https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png">
-<br>
+
 It will give you the workflow id for the target workflow.
 
 Now use the given API call to launch chaos with all the tunables mentioned above.
