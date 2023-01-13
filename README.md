@@ -44,6 +44,7 @@ You will get this screen:
 
 - Click on "Create Access Key" if you have lost the older one
 </details>
+
 <br>
 
 <details open><summary>Looking for details on ROJECT_ID and WORKFLOW_ID?</summary>
@@ -51,7 +52,7 @@ You will get this screen:
 
 For Project ID:
 
-- On HCE dashboard click on "Project" (as shown in point-1 on the image) and copy the "Project ID". You can also get the project ID from the URL.
+<li> On HCE dashboard click on "Project" (as shown in point-1 on the image) and copy the "Project ID". You can also get the project ID from the URL.
 
 Checkout this screen:
 
@@ -59,15 +60,16 @@ Checkout this screen:
 
 For Workflow ID:
 
-- Click on "three dots" on the workflow and Navigate to "View Manifest" option. You will get a screen like this:
+<li> Click on "three dots" on the workflow and Navigate to "View Manifest" option. You will get a screen like this:
 
 <img alt="workflow-id-img" src="https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png">
 
 It will give you the workflow id for the target workflow.
 </details>
+
 <br>
 
-```bash
+```
 curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>/api/' --data-binary '{"query":"mutation reRunChaosWorkFlow($workflowID: String!, $projectID: String!) {reRunChaosWorkFlow(workflowID: $workflowID, projectID: $projectID)}","variables":{"workflowID":"<WORKFLOW_ID>","projectID":"<PROJECT_ID>"}}' --compressed
 ```
 <br>
