@@ -122,3 +122,6 @@ exit 1
 ```
 
 (Replace the tunables (along with '[]') in the above query template to make it usable)
+
+## API to Validate Resilience Score
+
