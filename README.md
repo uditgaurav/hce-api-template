@@ -70,4 +70,4 @@ curl '[HCE_ENDPOINT]/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Cont
 <br><br>
 
 
-Replace the tunables (along with <code>[]</code>) in the above query template to make it usable. For any issues refer the <a href="https://developer.harness.io/docs/chaos-engineering">HCE docs</a>.
+Replace the tunables (along with '[]') in the above query template to make it usable. For any issues refer the <a href="https://developer.harness.io/docs/chaos-engineering">HCE docs</a>.
