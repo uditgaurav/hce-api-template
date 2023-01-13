@@ -4,19 +4,19 @@ Welcome to HCE's GraphQL API template documentation
 
 This contains the APIs to perform a chaos experiment from an automated pipeline
 
-## Table Of Containt
+## Table Of Content
 
-1. [API to Lauch Chaos Experiment](https://uditgaurav.github.io/cv/#api-to-launch-chaos-experiment)
+1. [API to Launch Chaos Experiment](https://uditgaurav.github.io/cv/#api-to-launch-chaos-experiment)
 2. API to Monitor Chaos Experiment
 3. API to Validate Resilience Score
 
 ## Pre-requisites
 
-- **Installed HCE**: You should have a HCE installed from where you can prepare and run experiments from API calls.
+- **Installed HCE**: You should have an HCE installed from where you can prepare and run experiments from API calls.
 
-- **Prepare Workflow**: We can run a workflow using APIs in any automated pipeline but for that we need to pre create a workflow with right tunables and attributes from HCE. This step will involve:
-  - Select right set of experiments you want to include in the workflow
-  - Provide desired tunables in the experiment. At any point of time, you can change the tunables and save it - this won't impact the overall api calls, infact this is the to update the tunables if you want to do so.
+- **Prepare Workflow**: We can run a workflow using APIs in any automated pipeline but for that, we need to pre-create a workflow with the right tunables and attributes from HCE. This step will involve:
+  - Select the right set of experiments you want to include in the workflow
+  - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is the to update the tunables if you want to do so.
 
 
 ## API to Launch Chaos Experiment
@@ -34,7 +34,7 @@ The above tunables are mandatory to provide. You need to replace it in the given
 
 <h3>Looking for details on ACCESS_KEY and ACCESS_ID?</h3>
 
-<li> On HCE dashboard click on "Settings" and switch to "Access Key" tab.
+<li> On the HCE dashboard click on "Settings" and switch to the "Access Key" tab.
 
 You will get this screen:
 
@@ -50,7 +50,7 @@ You will get this screen:
 
 For Project ID:
 
-<li> On HCE dashboard click on "Project" (as shown in point-1 on the image) and copy the "Project ID". You can also get the project ID from the URL.
+<li> On the HCE dashboard click on "Project" (as shown in point-1 on the image) and copy the "Project ID". You can also get the project ID from the URL.
 
 Checkout this screen:
 
@@ -58,7 +58,7 @@ Checkout this screen:
 
 For Workflow ID:
 
-<li> Click on "three dots" on the workflow and Navigate to "View Manifest" option. You will get a screen like this:
+<li> Click on "three dots" on the workflow and Navigate to the "View Manifest" option. You will get a screen like this:
 <img alt="workflow-id-img" src="https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png">
 It will give you the workflow id for the target workflow.
 
@@ -70,4 +70,4 @@ curl '[HCE_ENDPOINT]/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Cont
 <br><br>
 
 
-Replace the tunables (along with '[]') in the above query template to make it usable. For any issues refer the <a href="https://developer.harness.io/docs/chaos-engineering">HCE docs</a>.
+Replace the tunables (along with '[]') in the above query template to make it usable. For any issues refer to the <a href="https://developer.harness.io/docs/chaos-engineering">HCE docs</a>.
