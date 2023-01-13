@@ -1,9 +1,12 @@
----
 # API Template For Pipelines
 
 Welcome to HCE's GraphQL API template documentation
 
 This contains the APIs to perform a chaos experiment from an automated pipeline
+
+```json
+curl '&lt;HCE_ENDPOINT&gt;/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"&lt;ACCESS_ID&gt;","access_key":"&lt;ACCESS_KEY&gt;"}' &lt;HCE_ENDPOINT&gt;/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: &lt;HCE_ENDPOINT&gt;' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"&lt;PROJECT_ID&gt;","workflowIDs":["&lt;WORKFLOW_ID&gt;"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
+```
 
 ## Table Of Content
 
@@ -99,15 +102,10 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 - Please refer the step 1 to know how can we get the values of different tunables.
 
 
-<table>
-  <tr>
-    <td>
-      <code>
-        curl '&lt;HCE_ENDPOINT&gt;/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"&lt;ACCESS_ID&gt;","access_key":"&lt;ACCESS_KEY&gt;"}' &lt;HCE_ENDPOINT&gt;/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: &lt;HCE_ENDPOINT&gt;' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"&lt;PROJECT_ID&gt;","workflowIDs":["&lt;WORKFLOW_ID&gt;"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
-      </code>
-    </td>
-  </tr>
-</table>
+```json
+curl '&lt;HCE_ENDPOINT&gt;/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"&lt;ACCESS_ID&gt;","access_key":"&lt;ACCESS_KEY&gt;"}' &lt;HCE_ENDPOINT&gt;/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: &lt;HCE_ENDPOINT&gt;' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"&lt;PROJECT_ID&gt;","workflowIDs":["&lt;WORKFLOW_ID&gt;"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
+```
+
 
 
 Replace the tunables (along with '[]') in the above query template to make it usable.
