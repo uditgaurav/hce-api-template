@@ -2,7 +2,7 @@
 
 Welcome to HCE's GraphQL API template documentation
 
-This contains the APIs to perform a chaos experiment from an automated pipeline
+This contains the APIs templates to perform a chaos experiment in an automated way.
 
 ## Table Of Content
 
