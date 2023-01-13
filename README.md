@@ -129,3 +129,41 @@ exit 1
 
 ## API to Validate Resilience Score
 
+This contains the API to get the resilience score for a workflow run.
+
+### Tunables 
+
+- `ACCESS_KEY`
+- `ACCESS_ID`
+- `PROJECT_ID`
+- `WORKFLOW_ID`
+- `HCE_ENDPOINT`
+
+- Please refer the step 1 to know how can we get the values of different tunables.
+
+```
+
+curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].executionData' |jq -r '.nodes'|  jq 'map(select(has("chaosData"))) | .[].chaosData.probeSuccessPercentage'
+
+```
+
+(Replace the tunables (along with '[]') in the above query template to make it usable)
+
+#### A sample shell script to validate resiliency score
+
+- In this sample script you will get the probe success percentage for the last workflow run, you can make use of it to compare with the expected probe success percentage.
+
+```bash
+#!/bin/sh
+
+$expectedProbeSuccessPercentage=100
+
+res=$(curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].executionData' |jq -r '.nodes'|  jq 'map(select(has("chaosData"))) | .[].chaosData.probeSuccessPercentage')
+if [ "$res" != "$expectedProbeSuccessPercentage" ]; then
+    echo "The probe success percentage is: $res, expected probe sucess percentage: $expectedProbeSuccessPercentage"
+    exit 1
+fi
+
+echo "The probe success percentage is equal to expected probe success percentage"
+exit 0
+```
