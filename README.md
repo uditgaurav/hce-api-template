@@ -38,11 +38,11 @@ The above tunables are mandatory to provide. You need to replace it in the given
 
 ### Looking for details on ACCESS_KEY and ACCESS_ID?
 
-<li> On the HCE dashboard click on "Settings" and switch to the "Access Key" tab.
+- On the HCE dashboard click on "Settings" and switch to the "Access Key" tab.
 
 You will get this screen:
 
-<img alt="settings-image" src="https://user-images.githubusercontent.com/35391335/212264846-3ea0401c-5ab7-4da5-bdb6-8559e1cb9712.png">
+![settings-image](https://user-images.githubusercontent.com/35391335/212264846-3ea0401c-5ab7-4da5-bdb6-8559e1cb9712.png)
 
 <li> Click on "Create Access Key" if you have lost the older one
 
