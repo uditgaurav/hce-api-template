@@ -112,21 +112,29 @@ Replace the tunables (along with '[]') in the above query template to make it us
 
 - In this sample script we will wait for the workflow completion with the delay of 2 seconds and 150 retries, you can adjust these values based on total chaos duration.
 
-<code>
-#!/bin/sh
-$delay=2
-$retry=150
-for i in range {0..$retry}; do
-    res=$(curl '&lt;HCE_ENDPOINT&gt;/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"&lt;ACCESS_ID&gt;","access_key":"&lt;ACCESS_KEY&gt;"}' &lt;HCE_ENDPOINT&gt;/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: &lt;HCE_ENDPOINT&gt;' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"&lt;PROJECT_ID&gt;","workflowIDs":["&lt;WORKFLOW_ID&gt;"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase')
-    if [ "$res" == "Succeeded" ]; then
-        echo "Experiment completed, CurrentState: $res"
-        exit 0
-    fi
-    sleep $delay
-    echo "Waiting for experiment completion... CurrentState: $res"
-done
- echo "[Error]: Timeout the workflows is not completed with delay: $delay and retry: $retry, CurrentState: $res"
-exit 1
-</code>
+<table>
+  <tr>
+    <td>
+      #!/bin/sh
+
+      $delay=2
+      $retry=150
+
+      for i in range {0..$retry}; do
+          res=$(curl '&lt;HCE_ENDPOINT&gt;/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"&lt;ACCESS_ID&gt;","access_key":"&lt;ACCESS_KEY&gt;"}' &lt;HCE_ENDPOINT&gt;/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: &lt;HCE_ENDPOINT&gt;' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"&lt;PROJECT_ID&gt;","workflowIDs":["&lt;WORKFLOW_ID&gt;"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase')
+          if [ "$res" == "Succeeded" ]; then
+              echo "Experiment completed, CurrentState: $res"
+              exit 0
+          fi
+          sleep $delay
+          echo "Waiting for experiment completion... CurrentState: $res"
+      done
+
+      echo "[Error]: Timeout the workflows is not completed with delay: $delay and retry: $retry, CurrentState: $res"
+
+      exit 1
+    </td>
+  </tr>
+</table>
 
 (Replace the tunables (along with '[]') in the above query template to make it usable)
