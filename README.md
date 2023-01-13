@@ -32,7 +32,7 @@ This contains the API to trigger the Chaos Experiment.
 
 The above tunables are mandatory to provide. You need to replace it in the given API call.
 
-<details open><summary>Looking for details on ACCESS_KEY and ACCESS_ID?</summary>
+<details open><summary><h3>Looking for details on ACCESS_KEY and ACCESS_ID?</h3></summary>
 <br>
 <li> On HCE dashboard click on "Settings" and switch to "Access Key" tab.
 
@@ -45,9 +45,11 @@ You will get this screen:
 </details>
 <br>
 
+
 Also,
 
-<details open><summary>Looking for details on PROJECT_ID and WORKFLOW_ID?</summary>
+
+<details open><summary><h3>Looking for details on PROJECT_ID and WORKFLOW_ID?</h3></summary>
 <br>
 
 For Project ID:
@@ -61,15 +63,12 @@ Checkout this screen:
 For Workflow ID:
 
 <li> Click on "three dots" on the workflow and Navigate to "View Manifest" option. You will get a screen like this:
-
 <img alt="workflow-id-img" src="https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png">
-
 It will give you the workflow id for the target workflow.
 
-<br>
+
 </details>
 
-<br><br>
 
 
 <code>
