@@ -7,8 +7,8 @@ This contains the APIs to perform a chaos experiment from an automated pipeline
 ## Table Of Content
 
 1. [API to Launch Chaos Experiment](https://uditgaurav.github.io/cv/#api-to-launch-chaos-experiment)
-2. API to Monitor Chaos Experiment
-3. API to Validate Resilience Score
+2. [API to Monitor Chaos Experiment]()
+3. [API to Validate Resilience Score]()
 
 ## Pre-requisites
 
