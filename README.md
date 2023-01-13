@@ -7,7 +7,7 @@ This contains the APIs to perform a chaos experiment from an automated pipeline
 ## Table Of Content
 
 1. [API to Launch Chaos Experiment](https://uditgaurav.github.io/cv/#api-to-launch-chaos-experiment)
-2. [API to Monitor Chaos Experiment]()
+2. [API to Monitor Chaos Experiment](https://uditgaurav.github.io/cv/#api-to-monitor-chaos-experiment)
 3. [API to Validate Resilience Score]()
 
 ## Pre-requisites
@@ -108,7 +108,7 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 
 Replace the tunables (along with '[]') in the above query template to make it usable.
 
-#### A sample bash script to monitor Chaos Experiment
+#### A sample shell script to monitor Chaos Experiment
 
 - In this sample script we will wait for the workflow completion with the delay of 2 seconds and 150 retries, you can adjust these values based on total chaos duration.
 
