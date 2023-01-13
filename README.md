@@ -32,8 +32,8 @@ This contains the API to trigger the Chaos Experiment.
 
 The above tunables are mandatory to provide. You need to replace it in the given API call.
 
-<details open>
-<summary><b><u>Looking for details on <code>ACCESS_KEY</code> and <code>ACCESS_ID</code>?</b></u></summary>
+<details open><summary><a href="">Looking for details on ACCESS_KEY and ACCESS_ID?</a></summary>
+
 <br>
 
 - On HCE dashboard click on "Settings" and switch to "Access Key" tab.
@@ -73,10 +73,3 @@ curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Cont
 ```
 
 Replace the tunables (along with `<>`) in the above query template to make it usable. For any issues refer the [HCE docs](https://developer.harness.io/docs/chaos-engineering).
-
-
-<details open><summary><a href="https://hello.ca">link text</a></summary>
-
-Works!
-
-</details>
