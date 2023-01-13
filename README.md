@@ -32,7 +32,7 @@ This contains the API to trigger the Chaos Experiment.
 
 The above tunables are mandatory to provide. You need to replace it in the given API call.
 
-<details>
+<details open>
 <summary><b><u>Looking for details on <code>ACCESS_KEY</code> and <code>ACCESS_ID</code>?</b></u></summary>
 <br>
 
@@ -46,7 +46,7 @@ You will get this screen:
 </details>
 <br>
 
-<details>
+<details open>
 <summary><b><u>Looking for details on <code>PROJECT_ID</code> and <code>WORKFLOW_ID</code>?</b></u></summary>
 <br>
 
@@ -65,8 +65,6 @@ For Workflow ID:
 ![workflow-id-img](https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png)
 
 It will give you the workflow id for the target workflow.
-
-
 </details>
 <br>
 
