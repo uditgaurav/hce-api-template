@@ -36,7 +36,7 @@ This contains the API to trigger the Chaos Experiment.
 
 The above tunables are mandatory to provide. You need to replace it in the given API call.
 
-<h3>Looking for details on ACCESS_KEY and ACCESS_ID?</h3>
+### Looking for details on ACCESS_KEY and ACCESS_ID?
 
 <li> On the HCE dashboard click on "Settings" and switch to the "Access Key" tab.
 
