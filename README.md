@@ -5,7 +5,7 @@ Welcome to HCE's GraphQL API template documentation
 This contains the APIs to perform a chaos experiment from an automated pipeline
 
 ```json
-curl '&lt;HCE_ENDPOINT&gt;/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"&lt;ACCESS_ID&gt;","access_key":"&lt;ACCESS_KEY&gt;"}' &lt;HCE_ENDPOINT&gt;/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: &lt;HCE_ENDPOINT&gt;' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"&lt;PROJECT_ID&gt;","workflowIDs":["&lt;WORKFLOW_ID&gt;"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
+curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
 ```
 
 ## Table Of Content
@@ -44,48 +44,33 @@ You will get this screen:
 
 ![settings-image](https://user-images.githubusercontent.com/35391335/212264846-3ea0401c-5ab7-4da5-bdb6-8559e1cb9712.png)
 
-<li> Click on "Create Access Key" if you have lost the older one
+- Click on "Create Access Key" if you have lost the older one
 
-<br>
-
-
-<h3>Looking for details on PROJECT_ID and WORKFLOW_ID?</h3>
-<br>
+### Looking for details on PROJECT_ID and WORKFLOW_ID?
 
 For Project ID:
 
-<li> On the HCE dashboard click on "Project" (as shown in point-1 on the image) and copy the "Project ID". You can also get the project ID from the HCE URL at this place.
+- On the HCE dashboard click on "Project" (as shown in point-1 on the image) and copy the "Project ID". You can also get the project ID from the HCE URL at this place.
 
 Checkout this screen:
 
-<img alt="projectid-img" src="https://user-images.githubusercontent.com/35391335/212269753-9023352a-cf21-49df-9097-de4c23ae3766.png">
+![projectid-img](https://user-images.githubusercontent.com/35391335/212269753-9023352a-cf21-49df-9097-de4c23ae3766.png)
 
 For Workflow ID:
 
-<li> Click on "three dots" on the workflow and Navigate to the "View Manifest" option. You will get a screen like this:
+- Click on "three dots" on the workflow and Navigate to the "View Manifest" option. You will get a screen like this:
 
-<img alt="workflow-id-img" src="https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png">
+![workflow-id-img](https://user-images.githubusercontent.com/35391335/212271135-b1e7999e-4c12-409c-80a0-0978610aacbb.png)
 
 It will give you the workflow id for the target workflow.
 
 Now use the given API call to launch chaos with all the tunables mentioned above.
 
-<br><br>
+```json
+curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"<^">*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>/api/' --data-binary '{"query":"mutation reRunChaosWorkFlow($workflowID: String!, $projectID: String!) {reRunChaosWorkFlow(workflowID: $workflowID, projectID: $projectID)}","variables":{"workflowID":"<WORKFLOW_ID>","projectID":"<PROJECT_ID>"}}' --compressed
+```
 
-<table>
-  <tr>
-    <td>
-      <code>
-      curl '&lt;HCE_ENDPOINT&gt;/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"&lt;ACCESS_ID&gt;","access_key":"&lt;ACCESS_KEY&gt;"}' &lt;HCE_ENDPOINT&gt;/auth/login/ctl | grep -o '"access_token":"&lt;^"&gt;*' | cut -d'"' -f4)" -H 'Origin: &lt;HCE_ENDPOINT&gt;/api/' --data-binary '{"query":"mutation reRunChaosWorkFlow($workflowID: String!, $projectID: String!) {reRunChaosWorkFlow(workflowID: $workflowID, projectID: $projectID)}","variables":{"workflowID":"&lt;WORKFLOW_ID&gt;","projectID":"&lt;PROJECT_ID&gt;"}}' --compressed
-      </code>
-    </td>
-  </tr>
-</table>
-
-
-Replace the tunables (along with '[]') in the above query template to make it usable. For any issues refer to the <a href="https://developer.harness.io/docs/chaos-engineering">HCE docs</a>.
-<br>
-
+Replace the tunables (along with '[]') in the above query template to make it usable. For any issues refer to the [HCE docs](https://developer.harness.io/docs/chaos-engineering)
 
 ## API to Monitor Chaos Experiment
 
@@ -103,7 +88,7 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 
 
 ```json
-curl '&lt;HCE_ENDPOINT&gt;/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"&lt;ACCESS_ID&gt;","access_key":"&lt;ACCESS_KEY&gt;"}' &lt;HCE_ENDPOINT&gt;/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: &lt;HCE_ENDPOINT&gt;' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"&lt;PROJECT_ID&gt;","workflowIDs":["&lt;WORKFLOW_ID&gt;"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
+curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
 ```
 
 
@@ -114,29 +99,26 @@ Replace the tunables (along with '[]') in the above query template to make it us
 
 - In this sample script we will wait for the workflow completion with the delay of 2 seconds and 150 retries, you can adjust these values based on total chaos duration.
 
-<table>
-  <tr>
-    <td>
-      #!/bin/sh
+```bash
 
-      $delay=2
-      $retry=150
+#!/bin/sh
 
-      for i in range {0..$retry}; do
-          res=$(curl '&lt;HCE_ENDPOINT&gt;/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"&lt;ACCESS_ID&gt;","access_key":"&lt;ACCESS_KEY&gt;"}' &lt;HCE_ENDPOINT&gt;/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: &lt;HCE_ENDPOINT&gt;' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"&lt;PROJECT_ID&gt;","workflowIDs":["&lt;WORKFLOW_ID&gt;"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase')
-          if [ "$res" == "Succeeded" ]; then
-              echo "Experiment completed, CurrentState: $res"
-              exit 0
-          fi
-          sleep $delay
-          echo "Waiting for experiment completion... CurrentState: $res"
-      done
+$delay=2
+$retry=150
 
-      echo "[Error]: Timeout the workflows is not completed with delay: $delay and retry: $retry, CurrentState: $res"
+for i in range {0..$retry}; do
+    res=$(curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase')
+    if [ "$res" == "Succeeded" ]; then
+        echo "Experiment completed, CurrentState: $res"
+        exit 0
+    fi
+    sleep $delay
+    echo "Waiting for experiment completion... CurrentState: $res"
+done
 
-      exit 1
-    </td>
-  </tr>
-</table>
+echo "[Error]: Timeout the workflows is not completed with delay: $delay and retry: $retry, CurrentState: $res"
+
+exit 1
+```
 
 (Replace the tunables (along with '[]') in the above query template to make it usable)
