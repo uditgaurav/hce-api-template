@@ -129,7 +129,7 @@ exit 1
 
 ## API to Validate Resilience Score
 
-This contains the API to get the resilience score for a workflow run.
+This contains the API to get the resilience score for a workflow run and validate against the expected probe success percentage.
 
 ### Tunables 
 
