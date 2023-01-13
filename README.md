@@ -74,3 +74,9 @@ curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Cont
 
 Replace the tunables (along with `<>`) in the above query template to make it usable. For any issues refer the [HCE docs](https://developer.harness.io/docs/chaos-engineering).
 
+
+<details open><summary><a href="https://hello.ca">link text</a></summary>
+
+Works!
+
+</details>
