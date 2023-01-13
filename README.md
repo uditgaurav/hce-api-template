@@ -42,7 +42,8 @@ You will get this screen:
 
 <img alt="settings-image" src="https://user-images.githubusercontent.com/35391335/212264846-3ea0401c-5ab7-4da5-bdb6-8559e1cb9712.png">
 
-- Click on "Create Access Key" if you have lost the older one
+<li> Click on "Create Access Key" if you have lost the older one
+
 </details>
 
 <br>
