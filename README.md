@@ -21,17 +21,17 @@ This contains the API templates to perform a chaos experiment in an automated wa
 - **Download 'hce-api' binary**: 
   - Follow the below-mentioned steps to install 'hce-api' binary. It will be used to prepare the API commands based on the provided tunables.
 
-  - Download `hce-api` binary using this command, and replace `<ACRH>` with your system arch (supports `amd64` and `arm64`).
+  - Download `hce-api` binary using this command, and replace `<OS>` and `<ACRH>` placeholder with your operating system (supports `linux` and `darwin`) and system arch (supports `amd64` and `arm64`).
 
     ```bash
-    wget https://github.com/uditgaurav/hce-api-template/releases/download/0.1.0/hce-api-<ARCH> -O hce-api
+    wget https://github.com/uditgaurav/hce-api-template/releases/download/0.1.0/hce-api-<OS>-<ARCH> -O hce-api
     chmod +x hce-api
     ```
 
     If you have don't have `wget` then you can also use `curl` command:
 
     ```bash
-    curl -L https://github.com/uditgaurav/hce-api-template/releases/download/0.1.0/hce-api-<ARCH> -o hce-api
+    curl -L https://github.com/uditgaurav/hce-api-template/releases/download/0.1.0/hce-api-<OS>-<ARCH> -o hce-api
     chmod +x hce-api
     ```
 
