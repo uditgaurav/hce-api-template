@@ -76,7 +76,7 @@ reRunChaosWorkFlow($workflowID: String!, $projectID: String!) {reRunChaosWorkFlo
 
 ```
 
-Replace the tunables (along with '[]') in the above query template to make it usable. For any issues refer to the [HCE docs](https://developer.harness.io/docs/chaos-engineering)
+Replace the tunables (along with '<>') in the above query template to make it usable. For any issues refer to the [HCE docs](https://developer.harness.io/docs/chaos-engineering)
 
 ## API to Monitor Chaos Experiment
 
@@ -101,15 +101,14 @@ curl '<HCE_ENDPOINT>/api/query' \
 -H 'Connection: keep-alive' \
 -H 'DNT: 1' \
 -H "Authorization: $(curl -s -H "Content-Type: application/json" \
--d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl \
-| grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" \
--H 'Origin: <HCE_ENDPOINT>' --data-binary \
-'{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  } \n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}'\
- --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
+-d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" \
+-H 'Origin: <HCE_ENDPOINT>' \
+--data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  } \n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' \
+--compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
 
 ```
 
-Replace the tunables (along with '[]') in the above query template to make it usable.
+Replace the tunables (along with '<>') in the above query template to make it usable.
 
 #### A sample shell script to monitor Chaos Experiment
 
@@ -136,7 +135,7 @@ echo "[Error]: Timeout the workflows is not completed with delay: $delay and ret
 exit 1
 ```
 
-(Replace the tunables (along with '[]') in the above query template to make it usable)
+(Replace the tunables (along with '<>') in the above query template to make it usable)
 
 ## API to Validate Resilience Score
 
@@ -163,7 +162,7 @@ executionData' |jq -r '.nodes'|  jq 'map(select(has("chaosData"))) | .[].chaosDa
 
 ```
 
-(Replace the tunables (along with '[]') in the above query template to make it usable)
+(Replace the tunables (along with '<>') in the above query template to make it usable)
 
 #### A sample shell script to validate resiliency score
 
@@ -183,4 +182,4 @@ fi
 echo "The probe success percentage is equal to expected probe success percentage"
 exit 0
 ```
-(Replace the tunables (along with '[]') in the above query template to make it usable)
+(Replace the tunables (along with '<>') in the above query template to make it usable)
