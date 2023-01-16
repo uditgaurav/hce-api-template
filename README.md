@@ -62,7 +62,7 @@ This contains the API to trigger the Chaos Experiment.
 - `HCE_ENDPOINT`
 
 The above tunables are mandatory to provide. You need to replace it in the given API call.
-- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know how you can get the values of the above tunables.
+- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the above tunables.
 
 Now use the given API call to launch chaos with all the tunables mentioned above.
 
@@ -90,7 +90,7 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 - `WORKFLOW_ID`
 - `HCE_ENDPOINT`
 
-- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know how you can get the values of the above tunables.
+- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the above tunables.
 
 ```bash
 
@@ -150,7 +150,7 @@ This contains the API to get the resilience score for a workflow run and validat
 - `WORKFLOW_ID`
 - `HCE_ENDPOINT`
 
-- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know how you can get the values of the above tunables.
+- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the above tunables.
 
 ```
 
