@@ -9,7 +9,7 @@ package_split=(${package//\// })
 package_name=${package_split[-1]}
 
 # Add the architecture for building image 
-platforms=("linux/amd64" "linux/arm64" "linux/x86_64" "darwin/arm64" "darwin/amd64")
+platforms=("linux/amd64" "linux/arm64" "darwin/arm64" "darwin/amd64")
 for platform in "${platforms[@]}"
 do
     platform_split=(${platform//\// })
