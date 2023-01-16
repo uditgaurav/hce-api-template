@@ -18,19 +18,9 @@ This contains the APIs templates to perform a chaos experiment in an automated w
   - Select the right set of experiments you want to include in the workflow
   - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is the to update the tunables if you want to do so.
 
+## Derive Tunables 
 
-## API to Launch Chaos Experiment
-
-This contains the API to trigger the Chaos Experiment.
-
-### Tunables 
-- `ACCESS_KEY`
-- `ACCESS_ID`
-- `PROJECT_ID`
-- `WORKFLOW_ID`
-- `HCE_ENDPOINT`
-
-The above tunables are mandatory to provide. You need to replace it in the given API call.
+- Derive the tunables for API calls.
 
 ### Looking for details on ACCESS_KEY and ACCESS_ID?
 
@@ -60,6 +50,20 @@ For Workflow ID:
 
 It will give you the workflow id for the target workflow.
 
+## API to Launch Chaos Experiment
+
+This contains the API to trigger the Chaos Experiment.
+
+### Tunables 
+- `ACCESS_KEY`
+- `ACCESS_ID`
+- `PROJECT_ID`
+- `WORKFLOW_ID`
+- `HCE_ENDPOINT`
+
+The above tunables are mandatory to provide. You need to replace it in the given API call.
+- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know how you can get the values of the above tunables.
+
 Now use the given API call to launch chaos with all the tunables mentioned above.
 
 ```
@@ -86,15 +90,19 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 - `WORKFLOW_ID`
 - `HCE_ENDPOINT`
 
-- Please refer [step 1](https://uditgaurav.github.io/hce-api-template//#api-to-launch-chaos-experiment) to know how can we get the values of different tunables.
+- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know how you can get the values of the above tunables.
 
-```
+```bash
 
-curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: 
-keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' 
-<HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: 
-ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }
-\n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
+curl '<HCE_ENDPOINT>/api/query' \
+-H 'Accept-Encoding: gzip, deflate, br' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'Connection: keep-alive' \
+-H 'DNT: 1' \
+-H "Authorization: $(curl -s -H "Content-Type: application/json" \
+-d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" \
+-H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  } \n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'
 
 ```
 
@@ -139,7 +147,7 @@ This contains the API to get the resilience score for a workflow run and validat
 - `WORKFLOW_ID`
 - `HCE_ENDPOINT`
 
-- Please refer [step 1](https://uditgaurav.github.io/hce-api-template//#api-to-launch-chaos-experiment) to know how can we get the values of different tunables.
+- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know how you can get the values of the above tunables.
 
 ```
 
