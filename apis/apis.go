@@ -15,10 +15,8 @@ const (
 
 func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 
-	ApiDetials = getAPITunablesForExperimentExecution(ApiDetials, mode)
-
-	if ApiDetials.FileName == "" {
-		ApiDetials.FileName = "hce-api.sh"
+	if mode == "intractive" {
+		ApiDetials = getAPITunablesForExperimentExecution(ApiDetials, mode)
 	}
 	if err := validateAPITunables(ApiDetials); err != nil {
 		return err
@@ -38,6 +36,7 @@ func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 	if err := writeCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}
+
 	fmt.Println("The file containing the API command is created successfully")
 
 	return nil
@@ -45,10 +44,8 @@ func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 
 func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
 
-	ApiDetials = getAPITunablesForExperimentExecution(ApiDetials, mode)
-
-	if ApiDetials.FileName == "" {
-		ApiDetials.FileName = "hce-api.sh"
+	if mode == "intractive" {
+		ApiDetials = getAPITunablesForExperimentExecution(ApiDetials, mode)
 	}
 	if err := validateAPITunables(ApiDetials); err != nil {
 		return err
@@ -76,10 +73,8 @@ func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
 
 func ApiToValidateResilienceScore(ApiDetials types.APIDetials, mode string) error {
 
-	ApiDetials = getAPITunablesForExperimentExecution(ApiDetials, mode)
-
-	if ApiDetials.FileName == "" {
-		ApiDetials.FileName = "hce-api.sh"
+	if mode == "intractive" {
+		ApiDetials = getAPITunablesForExperimentExecution(ApiDetials, mode)
 	}
 	if err := validateAPITunables(ApiDetials); err != nil {
 		return err
@@ -108,6 +103,10 @@ func ApiToValidateResilienceScore(ApiDetials types.APIDetials, mode string) erro
 
 func writeCmdToFile(fileName, cmd string) error {
 
+	if strings.TrimSpace(fileName) == "" {
+		fileName = "hce-api.sh"
+	}
+
 	f, err := os.Create(fileName)
 
 	if err != nil {
@@ -127,21 +126,18 @@ func writeCmdToFile(fileName, cmd string) error {
 
 func getAPITunablesForExperimentExecution(ApiDetials types.APIDetials, mode string) types.APIDetials {
 
-	if mode == "intractive" {
-
-		fmt.Print("Provide the HCE endpoint: ")
-		fmt.Scanf("%s", &ApiDetials.HCEEndpoint)
-		fmt.Print("Provide the Project ID: ")
-		fmt.Scanf("%s", &ApiDetials.ProjectID)
-		fmt.Print("Provide the Workflow ID: ")
-		fmt.Scanf("%s", &ApiDetials.WorkflowID)
-		fmt.Print("Provide the HCE Access Key: ")
-		fmt.Scanf("%s", &ApiDetials.AccessKey)
-		fmt.Print("Provide the HCE Access ID: ")
-		fmt.Scanf("%s", &ApiDetials.AccessID)
-		fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")
-		fmt.Scanf("%d", &ApiDetials.FileName)
-	}
+	fmt.Print("Provide the HCE endpoint: ")
+	fmt.Scanf("%s", &ApiDetials.HCEEndpoint)
+	fmt.Print("Provide the Project ID: ")
+	fmt.Scanf("%s", &ApiDetials.ProjectID)
+	fmt.Print("Provide the Workflow ID: ")
+	fmt.Scanf("%s", &ApiDetials.WorkflowID)
+	fmt.Print("Provide the HCE Access Key: ")
+	fmt.Scanf("%s", &ApiDetials.AccessKey)
+	fmt.Print("Provide the HCE Access ID: ")
+	fmt.Scanf("%s", &ApiDetials.AccessID)
+	fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")
+	fmt.Scanf("%d", &ApiDetials.FileName)
 
 	return ApiDetials
 }

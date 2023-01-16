@@ -26,19 +26,15 @@ var LaunchChaos = &cobra.Command{
 		}
 
 		apiDetials.FileName, err = cmd.Flags().GetString("file-name")
-		if apiDetials.FileName == "" {
-			apiDetials.FileName = "hce-api.sh"
-		}
+		apiDetials.HCEEndpoint, err = cmd.Flags().GetString("hce-endpoint")
+		apiDetials.ProjectID, err = cmd.Flags().GetString("project-id")
+		apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
+		apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
+		apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
+		apiDetials.API, err = cmd.Flags().GetString("api")
+
 		switch api {
 		case "launch-experiment":
-
-			apiDetials.HCEEndpoint, err = cmd.Flags().GetString("hce-endpoint")
-			apiDetials.ProjectID, err = cmd.Flags().GetString("project-id")
-			apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
-			apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
-			apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
-			apiDetials.API, err = cmd.Flags().GetString("api")
-
 			if err := apis.ApiToLanchExperiment(apiDetials, mode); err != nil {
 				fmt.Printf("fail to create template file with API to launch experiment, err: %v,", err)
 				os.Exit(1)
@@ -46,12 +42,6 @@ var LaunchChaos = &cobra.Command{
 			os.Exit(0)
 
 		case "monitor-experiment":
-			apiDetials.HCEEndpoint, err = cmd.Flags().GetString("hce-endpoint")
-			apiDetials.ProjectID, err = cmd.Flags().GetString("project-id")
-			apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
-			apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
-			apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
-			apiDetials.API, err = cmd.Flags().GetString("api")
 
 			if err := apis.ApiToMonitorExperiment(apiDetials, mode); err != nil {
 				fmt.Printf("fail to create template file with API to monitor experiment, err: %v,", err)
@@ -60,12 +50,6 @@ var LaunchChaos = &cobra.Command{
 			os.Exit(0)
 
 		case "validate-resilience-score":
-			apiDetials.HCEEndpoint, err = cmd.Flags().GetString("hce-endpoint")
-			apiDetials.ProjectID, err = cmd.Flags().GetString("project-id")
-			apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
-			apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
-			apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
-			apiDetials.API, err = cmd.Flags().GetString("api")
 
 			if err := apis.ApiToValidateResilienceScore(apiDetials, mode); err != nil {
 				fmt.Printf("fail to create template file with API to validate resilience score of the workflow, err: %v,", err)
@@ -92,7 +76,7 @@ func init() {
 	LaunchChaos.Flags().String("workflow-id", "", "Set the workflow id")
 	LaunchChaos.Flags().String("access-key", "", "Set the access key")
 	LaunchChaos.Flags().String("access-id", "", "Set the access id")
-	LaunchChaos.Flags().StringP("file-name", "f", "", "The target file name which contains the API command")
+	LaunchChaos.Flags().String("file-name", "", "The target file name which contains the API command")
 }
 func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
