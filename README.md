@@ -19,7 +19,7 @@ This contains the API templates to perform a chaos experiment in an automated wa
   - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is the to update the tunables if you want to do so.
 
 - **Download 'hce-api' binary**: 
-  - Follow the below-mentioned steps to prepare different API commands.
+  - Follow the below-mentioned steps to prepare different API commands. This binary will be used to prepare the API commands based on the provided input variables.
 
   - Download `hce-api` binary using this command, and replace `<ACRH>` with your system arch (supports `amd64` and `arm64`).
 
