@@ -203,7 +203,7 @@ Output:
 The file containing the API command is created successfully
 ```
 
-- Check out the file `hce-api.sh` and get the launch command
+- Check out the file `hce-api.sh` and get the chaos monitor command
 
 #### A sample shell script to monitor Chaos Experiment
 
@@ -298,7 +298,7 @@ Output:
 The file containing the API command is created successfully
 ```
 
-- Check out the file `hce-api.sh` and get the launch command
+- Check out the file `hce-api.sh` and get the validate-resilience-score command
 
 #### A sample shell script to validate the resiliency score
 
