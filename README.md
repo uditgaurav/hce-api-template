@@ -215,12 +215,13 @@ The file containing the API command is created successfully
 #!/bin/bash
 
 set -e
+
 # Tunables provide your values
 DELAY=2
 RETRY=150
 fileName="hce-api.sh"
 
-# script execution logic
+# Script execution logic
 START=0
 for (( i=$START; i<=$RETRY; i++ )); do
     echo
@@ -313,13 +314,18 @@ The file containing the API command is created successfully
 - In this sample script you will get the probe success percentage for the last workflow run, you can make use of it to compare it with the expected probe success percentage.
 
 ```bash
-#!/bin/sh
+#!/bin/bash
 
-$expectedProbeSuccessPercentage=100
+set -e
 
-cmd=$(cat hce-api.sh)
+# Tunables provide your values
+expectedProbeSuccessPercentage=100
+fileName="hce-api.sh"
 
-res=$(echo $cmd)
+# Script execution logic
+res=$(bash $fileName)
+res=$(echo "$res" | tr -d '"')
+echo
 if [ "$res" != "$expectedProbeSuccessPercentage" ]; then
     echo "The probe success percentage is: $res, expected probe success percentage: $expectedProbeSuccessPercentage"
     exit 1
