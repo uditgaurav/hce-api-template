@@ -38,7 +38,7 @@ func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 	if err := writeCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}
-	fmt.Println("The file containing API command is created successfully")
+	fmt.Println("The file containing the API command is created successfully")
 
 	return nil
 }
@@ -69,7 +69,7 @@ func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
 	if err := writeCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}
-	fmt.Println("The file containing API command is created successfully")
+	fmt.Println("The file containing the API command is created successfully")
 
 	return nil
 }
@@ -101,7 +101,7 @@ func ApiToValidateResilienceScore(ApiDetials types.APIDetials, mode string) erro
 	if err := writeCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}
-	fmt.Println("The file containing API command is created successfully")
+	fmt.Println("The file containing the API command is created successfully")
 
 	return nil
 }
@@ -139,7 +139,7 @@ func getAPITunablesForExperimentExecution(ApiDetials types.APIDetials, mode stri
 		fmt.Scanf("%s", &ApiDetials.AccessKey)
 		fmt.Print("Provide the HCE Access ID: ")
 		fmt.Scanf("%s", &ApiDetials.AccessID)
-		fmt.Print("Provide the File Name for api [Default is hce-api.sh]: ")
+		fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")
 		fmt.Scanf("%d", &ApiDetials.FileName)
 	}
 

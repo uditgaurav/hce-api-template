@@ -24,7 +24,7 @@ func main() {
 
 		options := `
 		Provide the index number to create a file with the API command from the given options.
-		For Example to create API that launches experiment give 1 as input.
+		For Example to create an API that launches an experiment give 1 as input.
 	
 		[1] API to Launch Chaos Experiment
 		[2] API to Monitor Chaos Experiment

@@ -2,7 +2,7 @@
 
 Welcome to HCE's GraphQL API template documentation
 
-This contains the APIs templates to perform a chaos experiment in an automated way.
+This contains the API templates to perform a chaos experiment in an automated way.
 
 ## Table Of Content
 
@@ -19,9 +19,9 @@ This contains the APIs templates to perform a chaos experiment in an automated w
   - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is the to update the tunables if you want to do so.
 
 - **Download 'hce-api' binary**: 
-  - Follow the below mentioned steps to prepare different API commands.
+  - Follow the below-mentioned steps to prepare different API commands.
 
-  - Download `hce-api` binary using this command, replace `<ACRH>` with your system arch (supports `amd64` and `arm64`).
+  - Download `hce-api` binary using this command, and replace `<ACRH>` with your system arch (supports `amd64` and `arm64`).
 
     ```bash
     wget https://github.com/uditgaurav/hce-api-template/releases/download/0.1.0/hce-api-<ARCH> -O hce-api
@@ -82,7 +82,7 @@ The above tunables are mandatory to provide. You need to replace it in the given
 
 - Before getting started checkout the [pre-requisite](https://uditgaurav.github.io/hce-api-template//#pre-requisite) section and follow the steps to download `hce-api` binary.
 
-**Non-Intractive Mode:**
+**Non-Interactive Mode:**
 
 - Provide the values in the flags given below to get the API command in a file.
 - Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
@@ -101,7 +101,7 @@ Example:
 
 The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory.
 
-**Intractive Mode:**
+**Interactive Mode:**
 
 - Run the downloaded `hce-api` binary as shown below. It will not trigger the chaos but will prepare the launch command in a file:
 
@@ -112,7 +112,7 @@ $ ./hce-api
 
 
 Provide the index number to create a file with the API command from the given options.
-For Example to create API that launches experiment give 1 as input.
+For Example to create an API that launches an experiment give 1 as input.
 
 [1] API to Launch Chaos Experiment
 [2] API to Monitor Chaos Experiment
@@ -125,13 +125,13 @@ Provide the Project ID: abceb5f4-4268-4467-9818-ad6e3b6bfd78
 Provide the Workflow ID: f4581780-efaf-4155-956e-6c379f24394b
 Provide the HCE Access Key: nEdGNDDrTFHyCnl
 Provide the HCE Access ID: adminNCWQu
-Provide the File Name for api [Default is hce-api.sh]: hce-api.sh
+Provide the File Name for API [Default is hce-api.sh]: hce-api.sh
 ```
 
 Output:
 
 ```bash
-The file containing API command is created successfully
+The file containing the API command is created successfully
 ```
 
 - Check out the file `hce-api.sh` and get the launch command
@@ -150,7 +150,7 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 
 - Before getting started checkout the [pre-requisite](https://uditgaurav.github.io/hce-api-template//#pre-requisite) section and follow the steps to download `hce-api` binary.
 
-**Non-Intractive Mode:**
+**Non-Interactive Mode:**
 
 - Provide the values in the flags given below to get the API command in a file.
 - Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
@@ -169,7 +169,7 @@ Example:
 
 The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory.
 
-**Intractive Mode:**
+**Interactive Mode:**
 
 - Run the downloaded `hce-api` binary as shown below. It will not trigger the command but will prepare the monitor command in a given file:
 - Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
@@ -181,7 +181,7 @@ $ ./hce-api
 
 
 Provide the index number to create a file with the API command from the given options.
-For Example to create API that launches experiment give 1 as input.
+For Example to create an API that launches an experiment give 1 as input.
 
 [1] API to Launch Chaos Experiment
 [2] API to Monitor Chaos Experiment
@@ -194,20 +194,20 @@ Provide the Project ID: abceb5f4-4268-4467-9818-ad6e3b6bfd78
 Provide the Workflow ID: f4581780-efaf-4155-956e-6c379f24394b
 Provide the HCE Access Key: nEdGNDDrTFHyCnl
 Provide the HCE Access ID: adminNCWQu
-Provide the File Name for api [Default is hce-api.sh]: hce-api.sh
+Provide the File Name for API [Default is hce-api.sh]: hce-api.sh
 ```
 
 Output:
 
 ```bash
-The file containing API command is created successfully
+The file containing the API command is created successfully
 ```
 
 - Check out the file `hce-api.sh` and get the launch command
 
 #### A sample shell script to monitor Chaos Experiment
 
-- In this sample script we will wait for the workflow completion with the delay of 2 seconds and 150 retries, you can adjust these values based on total chaos duration.
+- In this sample script we will wait for the workflow completion with a delay of 2 seconds and 150 retries, you can adjust these values based on total chaos duration.
 
 ```bash
 #!/bin/sh
@@ -245,7 +245,7 @@ This contains the API to get the resilience score for a workflow run and validat
 
 - Before getting started checkout the [pre-requisite](https://uditgaurav.github.io/hce-api-template//#pre-requisite) section and follow the steps to download `hce-api` binary.
 
-**Non-Intractive Mode:**
+**Non-Interactive Mode:**
 
 - Provide the values in the flags given below to get the API command in a file.
 - Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
@@ -264,7 +264,7 @@ Example:
 
 The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory.
 
-**Intractive Mode:**
+**Interactive Mode:**
 
 - Run the downloaded `hce-api` binary as shown below. It will not trigger the command but will prepare the monitor command in a given file:
 - Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
@@ -276,7 +276,7 @@ $ ./hce-api
 
 
 Provide the index number to create a file with the API command from the given options.
-For Example to create API that launches experiment give 1 as input.
+For Example to create an API that launches an experiment give 1 as input.
 
 [1] API to Launch Chaos Experiment
 [2] API to Monitor Chaos Experiment
@@ -289,20 +289,20 @@ Provide the Project ID: abceb5f4-4268-4467-9818-ad6e3b6bfd78
 Provide the Workflow ID: f4581780-efaf-4155-956e-6c379f24394b
 Provide the HCE Access Key: nEdGNDDrTFHyCnl
 Provide the HCE Access ID: adminNCWQu
-Provide the File Name for api [Default is hce-api.sh]: hce-api.sh
+Provide the File Name for API [Default is hce-api.sh]: hce-api.sh
 ```
 
 Output:
 
 ```bash
-The file containing API command is created successfully
+The file containing the API command is created successfully
 ```
 
 - Check out the file `hce-api.sh` and get the launch command
 
-#### A sample shell script to validate resiliency score
+#### A sample shell script to validate the resiliency score
 
-- In this sample script you will get the probe success percentage for the last workflow run, you can make use of it to compare with the expected probe success percentage.
+- In this sample script you will get the probe success percentage for the last workflow run, you can make use of it to compare it with the expected probe success percentage.
 
 ```bash
 #!/bin/sh
@@ -313,10 +313,10 @@ cmd=$(cat hce-api.sh)
 
 res=$(echo $cmd)
 if [ "$res" != "$expectedProbeSuccessPercentage" ]; then
-    echo "The probe success percentage is: $res, expected probe sucess percentage: $expectedProbeSuccessPercentage"
+    echo "The probe success percentage is: $res, expected probe success percentage: $expectedProbeSuccessPercentage"
     exit 1
 fi
 
-echo "The probe success percentage is equal to expected probe success percentage"
+echo "The probe success percentage is equal to the expected probe success percentage"
 exit 0
 ```
