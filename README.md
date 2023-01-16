@@ -18,21 +18,22 @@ This contains the APIs templates to perform a chaos experiment in an automated w
   - Select the right set of experiments you want to include in the workflow
   - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is the to update the tunables if you want to do so.
 
-- **Download hce-api**: Follow the below mentioned steps to prepare API that launches chaos experiment.
+- **Download hce-api**: 
+  - Follow the below mentioned steps to prepare different APIs.
 
-- Download `hce-api` binary using this command, replace `<ACRH>` with you system arch (supports `amd64` and `arm64`).
+  - Download `hce-api` binary using this command, replace `<ACRH>` with your system arch (supports `amd64` and `arm64`).
 
-```bash
-wget https://github.com/uditgaurav/hce-api-template/releases/download/0.1.0/hce-api-<ARCH> -O hce-api
-chmod +x hce-api
-```
+    ```bash
+    wget https://github.com/uditgaurav/hce-api-template/releases/download/0.1.0/hce-api-<ARCH> -O hce-api
+    chmod +x hce-api
+    ```
 
-If you have don't have `wget` then you can also use `curl` command:
+    If you have don't have `wget` then you can also use `curl` command:
 
-```bash
-curl -L https://github.com/uditgaurav/hce-api-template/releases/download/0.1.0/hce-api-<ARCH> -o hce-api
-chmod +x hce-api
-```
+    ```bash
+    curl -L https://github.com/uditgaurav/hce-api-template/releases/download/0.1.0/hce-api-<ARCH> -o hce-api
+    chmod +x hce-api
+    ```
 
 ## Derive Tunables
 
@@ -87,7 +88,8 @@ The above tunables are mandatory to provide. You need to replace it in the given
 - Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
 
 ```bash
-./hce-api generate --api launch-experiment --hce-endpoint=<HCE-ENDPOINT> --project-id <PROJECT-ID> --workflow-id <WORKFLOW-ID> \
+./hce-api generate --api launch-experiment --hce-endpoint=<HCE-ENDPOINT> \
+--project-id <PROJECT-ID> --workflow-id <WORKFLOW-ID> \
 --access-key <ACCESS-KEY> --access-id <ACCESS-ID> --file-name <FILE-NAME>
 ```
 
@@ -97,7 +99,7 @@ Example:
 ./hce-api generate --api launch-experiment --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh
 ```
 
-The default value for `--file-name` is `hce-api.sh` all other variables are mandatory.
+The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory.
 
 **Intractive Mode:**
 
@@ -109,12 +111,12 @@ The default value for `--file-name` is `hce-api.sh` all other variables are mand
 $ ./hce-api
 
 
-		Provide the index number to create a file with the API command from the given options.
-		For Example to create API that launches experiment give 1 as input.
-	
-		[1] API to Launch Chaos Experiment
-		[2] API to Monitor Chaos Experiment
-		[3] API to Validate Resilience Score
+Provide the index number to create a file with the API command from the given options.
+For Example to create API that launches experiment give 1 as input.
+
+[1] API to Launch Chaos Experiment
+[2] API to Monitor Chaos Experiment
+[3] API to Validate Resilience Score
 	
 		
 Select from the given options: 1
@@ -154,7 +156,8 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 - Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
 
 ```bash
-./hce-api generate --api monitor-experiment --hce-endpoint=<HCE-ENDPOINT> --project-id <PROJECT-ID> --workflow-id <WORKFLOW-ID> \
+./hce-api generate --api monitor-experiment --hce-endpoint=<HCE-ENDPOINT> \
+--project-id <PROJECT-ID> --workflow-id <WORKFLOW-ID> \
 --access-key <ACCESS-KEY> --access-id <ACCESS-ID> --file-name <FILE-NAME>
 ```
 
@@ -164,7 +167,7 @@ Example:
 ./hce-api generate --api monitor-experiment --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh
 ```
 
-The default value for `--file-name` is `hce-api.sh` all other variables are mandatory.
+The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory.
 
 **Intractive Mode:**
 
@@ -177,12 +180,12 @@ The default value for `--file-name` is `hce-api.sh` all other variables are mand
 $ ./hce-api
 
 
-		Provide the index number to create a file with the API command from the given options.
-		For Example to create API that launches experiment give 1 as input.
-	
-		[1] API to Launch Chaos Experiment
-		[2] API to Monitor Chaos Experiment
-		[3] API to Validate Resilience Score
+Provide the index number to create a file with the API command from the given options.
+For Example to create API that launches experiment give 1 as input.
+
+[1] API to Launch Chaos Experiment
+[2] API to Monitor Chaos Experiment
+[3] API to Validate Resilience Score
 	
 		
 Select from the given options: 2
@@ -248,7 +251,8 @@ This contains the API to get the resilience score for a workflow run and validat
 - Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
 
 ```bash
-./hce-api generate --api validate-resilience-score --hce-endpoint=<HCE-ENDPOINT> --project-id <PROJECT-ID> --workflow-id <WORKFLOW-ID> \
+./hce-api generate --api validate-resilience-score --hce-endpoint=<HCE-ENDPOINT> \
+--project-id <PROJECT-ID> --workflow-id <WORKFLOW-ID> \
 --access-key <ACCESS-KEY> --access-id <ACCESS-ID> --file-name <FILE-NAME>
 ```
 
@@ -258,7 +262,7 @@ Example:
 ./hce-api generate --api validate-resilience-score --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh
 ```
 
-The default value for `--file-name` is `hce-api.sh` all other variables are mandatory.
+The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory.
 
 **Intractive Mode:**
 
@@ -271,12 +275,12 @@ The default value for `--file-name` is `hce-api.sh` all other variables are mand
 $ ./hce-api
 
 
-		Provide the index number to create a file with the API command from the given options.
-		For Example to create API that launches experiment give 1 as input.
-	
-		[1] API to Launch Chaos Experiment
-		[2] API to Monitor Chaos Experiment
-		[3] API to Validate Resilience Score
+Provide the index number to create a file with the API command from the given options.
+For Example to create API that launches experiment give 1 as input.
+
+[1] API to Launch Chaos Experiment
+[2] API to Monitor Chaos Experiment
+[3] API to Validate Resilience Score
 	
 		
 Select from the given options: 2
@@ -295,6 +299,7 @@ The file containing API command is created successfully
 ```
 
 - Check out the file `hce-api.sh` and get the launch command
+
 #### A sample shell script to validate resiliency score
 
 - In this sample script you will get the probe success percentage for the last workflow run, you can make use of it to compare with the expected probe success percentage.
@@ -304,7 +309,7 @@ The file containing API command is created successfully
 
 $expectedProbeSuccessPercentage=100
 
-cmd=$(cat validate-api.sh)
+cmd=$(cat hce-api.sh)
 
 res=$(echo $cmd)
 if [ "$res" != "$expectedProbeSuccessPercentage" ]; then
