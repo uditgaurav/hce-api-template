@@ -16,10 +16,10 @@ This contains the API templates to perform a chaos experiment in an automated wa
 
 - **Prepare Workflow**: We can run a workflow using APIs in any automated pipeline but for that, we need to pre-create a workflow with the right tunables and attributes from HCE. This step will involve:
   - Select the right set of experiments you want to include in the workflow
-  - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is the to update the tunables if you want to do so.
+  - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is correct method to update the tunables of the pre-created experiment for new runs.
 
 - **Download 'hce-api' binary**: 
-  - Follow the below-mentioned steps to prepare different API commands. This binary will be used to prepare the API commands based on the provided input variables.
+  - Follow the below-mentioned steps to install 'hce-api' binary. It will be used to prepare the API commands based on the provided tunables.
 
   - Download `hce-api` binary using this command, and replace `<ACRH>` with your system arch (supports `amd64` and `arm64`).
 
@@ -37,7 +37,7 @@ This contains the API templates to perform a chaos experiment in an automated wa
 
 ## Derive Tunables
 
-- Derive the tunables for API calls.
+- Derive the tunables for API calls. Login to your HCE dashboard.
 
 ### Looking for details on ACCESS_KEY and ACCESS_ID?
 

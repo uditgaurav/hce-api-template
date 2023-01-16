@@ -9,14 +9,14 @@ package_split=(${package//\// })
 package_name=${package_split[-1]}
 
 # Add the architecture for building image 
-platforms=("linux/amd64" "linux/arm64" "darwin/arm64" "darwin/amd64")
+platforms=("linux/amd64" "linux/arm64" "linux/x86_64" "darwin/arm64" "darwin/amd64")
 for platform in "${platforms[@]}"
 do
     platform_split=(${platform//\// })
     GOOS=${platform_split[0]}
     GOARCH=${platform_split[1]}
 
-    env GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=0 $package-$GOARCH
+    env GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=0 $package-$GOOS-$GOARCH
     if [ $? -ne 0 ]; then
         echo 'An error has occurred! Aborting the script execution...'
         exit 1
