@@ -35,6 +35,7 @@ var LaunchChaos = &cobra.Command{
 
 		switch api {
 		case "launch-experiment":
+
 			if err := apis.ApiToLanchExperiment(apiDetials, mode); err != nil {
 				fmt.Printf("fail to create template file with API to launch experiment, err: %v,", err)
 				os.Exit(1)

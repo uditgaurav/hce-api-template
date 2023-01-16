@@ -80,6 +80,7 @@ func ApiToValidateResilienceScore(ApiDetials types.APIDetials, mode string) erro
 		return err
 	}
 
+
 	cmdOutput := fmt.Sprintf(
 		`curl '%v/api/query' \
 		-H 'Accept-Encoding: gzip, deflate, br' \
@@ -137,7 +138,7 @@ func getAPITunablesForExperimentExecution(ApiDetials types.APIDetials, mode stri
 	fmt.Print("Provide the HCE Access ID: ")
 	fmt.Scanf("%s", &ApiDetials.AccessID)
 	fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")
-	fmt.Scanf("%d", &ApiDetials.FileName)
+	fmt.Scanf("%s", &ApiDetials.FileName)
 
 	return ApiDetials
 }
