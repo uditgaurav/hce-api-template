@@ -39,7 +39,21 @@ var LaunchChaos = &cobra.Command{
 				fmt.Printf("fail to create template file with API to launch experiment, err: %v,", err)
 				os.Exit(1)
 			}
-			fmt.Print("The file containing API command is created successfully!")
+			os.Exit(0)
+
+		case "monitor-experiment":
+			apiDetials.HCEEndpoint, err = cmd.Flags().GetString("hce-endpoint")
+			apiDetials.ProjectID, err = cmd.Flags().GetString("project-id")
+			apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
+			apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
+			apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
+			apiDetials.FileName, err = cmd.Flags().GetString("file-name")
+			apiDetials.API, err = cmd.Flags().GetString("api")
+
+			if err := apis.ApiToMonitorExperiment(apiDetials, mode); err != nil {
+				fmt.Printf("fail to create template file with API to monitor experiment, err: %v,", err)
+				os.Exit(1)
+			}
 			os.Exit(0)
 		}
 

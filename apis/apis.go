@@ -15,7 +15,7 @@ const (
 
 func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 
-	ApiDetials = getAPITunablesToLaunchExperiment(ApiDetials, mode)
+	ApiDetials = getAPITunablesForExperimentExecution(ApiDetials, mode)
 
 	if ApiDetials.FileName == "" {
 		ApiDetials.FileName = "hce-api.sh"
@@ -35,9 +35,57 @@ func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 	-H 'Origin: %v/api/' \
 	--data-binary '{"query":"mutation reRunChaosWorkFlow($workflowID: String!, $projectID: String!) {reRunChaosWorkFlow(workflowID: $workflowID, projectID: $projectID)}","variables":{"workflowID":"%v","projectID":"%v"}}' --compressed`, ApiDetials.HCEEndpoint, ApiDetials.AccessID, ApiDetials.AccessKey, ApiDetials.HCEEndpoint, ApiDetials.HCEEndpoint, ApiDetials.WorkflowID, ApiDetials.ProjectID)
 
+
 	if err := writeCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}
+	fmt.Println("The file containing API command is created successfully")
+
+	return nil
+}
+
+func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
+
+	ApiDetials = getAPITunablesForExperimentExecution(ApiDetials, mode)
+
+	if ApiDetials.FileName == "" {
+		ApiDetials.FileName = "hce-api.sh"
+	}
+	if err := validateAPITunables(ApiDetials); err != nil {
+		return err
+	}
+
+	// cmdOutput := fmt.Sprintf(
+	// 	`curl '%v/api/query' \
+	// -H 'Accept-Encoding: gzip, deflate, br' \
+	// -H 'Content-Type: application/json' \
+	// -H 'Accept: application/json' \
+	// -H 'Connection: keep-alive' \
+	// -H 'DNT: 1' \
+	// -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"%v","access_key":"%v"}' %v/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" \
+	// -H 'Origin: %v' \
+	// --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }
+	// \n }\n}","variables":{"request":{"projectID":"%v","workflowIDs":["%v"]}}}' \
+	// --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].executionData' \
+	// |jq -r '.nodes'|  jq 'map(select(has("chaosData"))) | .[].chaosData.probeSuccessPercentage'`, ApiDetials.HCEEndpoint, ApiDetials.AccessID, ApiDetials.AccessKey, ApiDetials.HCEEndpoint, ApiDetials.HCEEndpoint, ApiDetials.ProjectID, ApiDetials.WorkflowID)
+	
+	cmdOutput :=fmt.Sprintf(`curl '%v/api/query' \
+	-H 'Accept-Encoding: gzip, deflate, br' \
+	-H 'Content-Type: application/json' \
+	-H 'Accept: application/json' \
+	-H 'Connection: keep-alive' \
+	-H 'DNT: 1' \
+	-H "Authorization: $(curl -s -H "Content-Type: application/json" \
+	-d '{"access_id":"%v","access_key":"%v"}' %v/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" \
+	-H 'Origin: %v' \
+	--data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  } \n }\n}","variables":{"request":{"projectID":"%v","workflowIDs":["%v"]}}}' \
+	--compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'`,ApiDetials.HCEEndpoint,ApiDetials.AccessID,ApiDetials.AccessKey,ApiDetials.HCEEndpoint,ApiDetials.HCEEndpoint,ApiDetials.ProjectID,ApiDetials.WorkflowID)
+
+
+	if err := writeCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
+		return err
+	}
+	fmt.Println("The file containing API command is created successfully")
 
 	return nil
 }
@@ -61,7 +109,7 @@ func writeCmdToFile(fileName, cmd string) error {
 	return nil
 }
 
-func getAPITunablesToLaunchExperiment(ApiDetials types.APIDetials, mode string) types.APIDetials {
+func getAPITunablesForExperimentExecution(ApiDetials types.APIDetials, mode string) types.APIDetials {
 
 	if mode == "intractive" {
 
@@ -109,7 +157,7 @@ func validateAPITunables(ApiDetials types.APIDetials) error {
 func CheckMode() string {
 	var mode string
 
-	if len(os.Args) > 0 {
+	if len(os.Args) > 1 {
 		mode = "non-intractive"
 	} else {
 		mode = "intractive"

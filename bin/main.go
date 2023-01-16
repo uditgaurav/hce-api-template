@@ -47,7 +47,10 @@ func main() {
 			}
 
 		case 2:
-			fmt.Println("This is option 2")
+			if err := apis.ApiToMonitorExperiment(apiDetials, mode); err != nil {
+				fmt.Printf("fail to create template file with API to monitor experiment, err: %v,", err)
+				os.Exit(1)
+			}
 		case 3:
 			fmt.Println("This is option 3")
 
@@ -55,7 +58,6 @@ func main() {
 
 			fmt.Println("Not a valid option, please select from the given opetion")
 			os.Exit(0)
-
 		}
 	}
 }
