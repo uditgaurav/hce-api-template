@@ -18,6 +18,8 @@ This contains the API templates to perform a chaos experiment in an automated wa
   - Select the right set of experiments you want to include in the workflow
   - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is correct method to update the tunables of the pre-created experiment for new runs.
 
+- **Install 'jq' binary**: Install the `jq` binary as it is used in some APIs to filter path. 
+
 - **Download 'hce-api' binary**: 
   - Follow the below-mentioned steps to install 'hce-api' binary. It will be used to prepare the API commands based on the provided tunables.
 
@@ -134,7 +136,7 @@ Output:
 The file containing the API command is created successfully
 ```
 
-- Check out the file `hce-api.sh` and get the launch command
+- Check out the file `hce-api.sh` and get the launch command. To run the API execute `bash hce-api.sh` (replace file name for custom names).
 
 ## API to Monitor Chaos Experiment
 
@@ -167,7 +169,7 @@ Example:
 ./hce-api generate --api monitor-experiment --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh
 ```
 
-The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory.
+The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory. 
 
 **Interactive Mode:**
 
@@ -203,30 +205,36 @@ Output:
 The file containing the API command is created successfully
 ```
 
-- Check out the file `hce-api.sh` and get the chaos monitor command
+- Check out the file `hce-api.sh` and get the chaos monitor command. To run the API run `bash hce-api.sh` (replace file name for custom names).
 
-#### A sample shell script to monitor Chaos Experiment
+#### A sample bash script to monitor Chaos Experiment
 
 - In this sample script we will wait for the workflow completion with a delay of 2 seconds and 150 retries, you can adjust these values based on total chaos duration.
 
 ```bash
-#!/bin/sh
+#!/bin/bash
 
-$delay=2
-$retry=150
+set -e
+# Tunables provide your values
+DELAY=2
+RETRY=150
+fileName="hce-api.sh"
 
-cmd=$(cat hce-api.sh)
-for i in range {0..$retry}; do
-    res=$(echo $cmd)
+# script execution logic
+START=0
+for (( i=$START; i<=$RETRY; i++ )); do
+    echo
+    res=$(sh $fileName)
+    echo
     if [ "$res" == "Succeeded" ]; then
         echo "Experiment completed, CurrentState: $res"
         exit 0
     fi
-    sleep $delay
-    echo "Waiting for experiment completion... CurrentState: $res"
+    sleep $DELAY
+    echo "Waiting for experiment completion... CurrentState: $res, retries left: $(($RETRY-$i))"
 done
 
-echo "[Error]: Timeout the workflows is not completed with delay: $delay and retry: $retry, CurrentState: $res"
+echo "[Error]: Timeout the workflows is not completed with DELAY: $DELAY and RETRY: $RETRY, CurrentState: $res"
 
 exit 1
 ```
@@ -298,9 +306,9 @@ Output:
 The file containing the API command is created successfully
 ```
 
-- Check out the file `hce-api.sh` and get the validate-resilience-score command
+- Check out the file `hce-api.sh` and get the validate-resilience-score command. To run the API run `bash hce-api.sh` (replace file name for custom names).
 
-#### A sample shell script to validate the resiliency score
+#### A sample bash script to validate the resiliency score
 
 - In this sample script you will get the probe success percentage for the last workflow run, you can make use of it to compare it with the expected probe success percentage.
 
