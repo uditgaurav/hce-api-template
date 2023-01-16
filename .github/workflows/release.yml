@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build go binary for pause
-        run : ./../../build/go-multiarch-build.sh "go build -o ./../../build/_output/hce-api"
+        run : ./../build/go-multiarch-build.sh "go build -o ./../build/_output/hce-api"
         working-directory: bin/
       
       - name: create release along with artifact
