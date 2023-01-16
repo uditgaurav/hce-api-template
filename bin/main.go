@@ -52,7 +52,10 @@ func main() {
 				os.Exit(1)
 			}
 		case 3:
-			fmt.Println("This is option 3")
+			if err := apis.ApiToValidateResilienceScore(apiDetials, mode); err != nil {
+				fmt.Printf("fail to create template file with API to monitor experiment, err: %v,", err)
+				os.Exit(1)
+			}
 
 		default:
 

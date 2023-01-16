@@ -13,7 +13,7 @@ var LaunchChaos = &cobra.Command{
 	Use:     "generate",
 	Short:   "Launches Chaos Experiment Workflow",
 	Long:    "Launches Chaos Experiment Workflow",
-	Example: "./hce-api --api launch-experiment --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh",
+	Example: "./hce-api generate --api launch-experiment --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		apiDetials := types.APIDetials{}
@@ -52,6 +52,21 @@ var LaunchChaos = &cobra.Command{
 
 			if err := apis.ApiToMonitorExperiment(apiDetials, mode); err != nil {
 				fmt.Printf("fail to create template file with API to monitor experiment, err: %v,", err)
+				os.Exit(1)
+			}
+			os.Exit(0)
+
+		case "validate-resilience-score":
+			apiDetials.HCEEndpoint, err = cmd.Flags().GetString("hce-endpoint")
+			apiDetials.ProjectID, err = cmd.Flags().GetString("project-id")
+			apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
+			apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
+			apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
+			apiDetials.FileName, err = cmd.Flags().GetString("file-name")
+			apiDetials.API, err = cmd.Flags().GetString("api")
+
+			if err := apis.ApiToValidateResilienceScore(apiDetials, mode); err != nil {
+				fmt.Printf("fail to create template file with API to validate resilience score of the workflow, err: %v,", err)
 				os.Exit(1)
 			}
 			os.Exit(0)
