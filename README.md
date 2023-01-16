@@ -81,7 +81,7 @@ curl '<HCE_ENDPOINT>/api/query' \
 
 ```
 
-Replace the tunables (along with '<>') in the above query template to make it usable. For any issues refer to the [HCE docs](https://developer.harness.io/docs/chaos-engineering)
+Replace the tunables (along with '<>') in the above query template to make it usable.
 
 ## API to Monitor Chaos Experiment
 
@@ -113,7 +113,7 @@ curl '<HCE_ENDPOINT>/api/query' \
 
 ```
 
-Replace the tunables (along with '<>') in the above query template to make it usable.
+Replace the tunables (along with '<>') in the above query template to make it usable. Store the above command in a file say `monitor-api.sh` to be used in below mentioned sample script.
 
 #### A sample shell script to monitor Chaos Experiment
 
@@ -125,8 +125,9 @@ Replace the tunables (along with '<>') in the above query template to make it us
 $delay=2
 $retry=150
 
+cmd=$(cat monitor-api.sh)
 for i in range {0..$retry}; do
-    res=$(curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]* ' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase')
+    res=$(echo $cmd)
     if [ "$res" == "Succeeded" ]; then
         echo "Experiment completed, CurrentState: $res"
         exit 0
@@ -139,8 +140,6 @@ echo "[Error]: Timeout the workflows is not completed with delay: $delay and ret
 
 exit 1
 ```
-
-(Replace the tunables (along with '<>') in the above query template to make it usable)
 
 ## API to Validate Resilience Score
 
@@ -173,8 +172,7 @@ curl '<HCE_ENDPOINT>/api/query' \
 |jq -r '.nodes'|  jq 'map(select(has("chaosData"))) | .[].chaosData.probeSuccessPercentage'
 
 ```
-
-(Replace the tunables (along with '<>') in the above query template to make it usable)
+Replace the tunables (along with '<>') in the above query template to make it usable.  Store the above command in a file say `validate-api.sh` to be used in below mentioned sample script.
 
 #### A sample shell script to validate resiliency score
 
@@ -185,7 +183,9 @@ curl '<HCE_ENDPOINT>/api/query' \
 
 $expectedProbeSuccessPercentage=100
 
-res=$(curl '<HCE_ENDPOINT>/api/query' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"<ACCESS_ID>","access_key":"<ACCESS_KEY>"}' <HCE_ENDPOINT>/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" -H 'Origin: <HCE_ENDPOINT>' --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"<PROJECT_ID>","workflowIDs":["<WORKFLOW_ID>"]}}}' --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].executionData' |jq -r '.nodes'|  jq 'map(select(has("chaosData"))) | .[].chaosData.probeSuccessPercentage')
+cmd=$(cat validate-api.sh)
+
+res=$(echo $cmd)
 if [ "$res" != "$expectedProbeSuccessPercentage" ]; then
     echo "The probe success percentage is: $res, expected probe sucess percentage: $expectedProbeSuccessPercentage"
     exit 1
@@ -194,4 +194,3 @@ fi
 echo "The probe success percentage is equal to expected probe success percentage"
 exit 0
 ```
-(Replace the tunables (along with '<>') in the above query template to make it usable)
