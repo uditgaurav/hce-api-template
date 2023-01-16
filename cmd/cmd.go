@@ -24,6 +24,11 @@ var LaunchChaos = &cobra.Command{
 			fmt.Println(err)
 			os.Exit(1)
 		}
+
+		apiDetials.FileName, err = cmd.Flags().GetString("file-name")
+		if apiDetials.FileName == "" {
+			apiDetials.FileName = "hce-api.sh"
+		}
 		switch api {
 		case "launch-experiment":
 
@@ -32,7 +37,6 @@ var LaunchChaos = &cobra.Command{
 			apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
 			apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
 			apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
-			apiDetials.FileName, err = cmd.Flags().GetString("file-name")
 			apiDetials.API, err = cmd.Flags().GetString("api")
 
 			if err := apis.ApiToLanchExperiment(apiDetials, mode); err != nil {
@@ -47,7 +51,6 @@ var LaunchChaos = &cobra.Command{
 			apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
 			apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
 			apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
-			apiDetials.FileName, err = cmd.Flags().GetString("file-name")
 			apiDetials.API, err = cmd.Flags().GetString("api")
 
 			if err := apis.ApiToMonitorExperiment(apiDetials, mode); err != nil {
@@ -62,7 +65,6 @@ var LaunchChaos = &cobra.Command{
 			apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
 			apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
 			apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
-			apiDetials.FileName, err = cmd.Flags().GetString("file-name")
 			apiDetials.API, err = cmd.Flags().GetString("api")
 
 			if err := apis.ApiToValidateResilienceScore(apiDetials, mode); err != nil {
