@@ -18,7 +18,9 @@ This contains the API templates to perform a chaos experiment in an automated wa
   - Select the right set of experiments you want to include in the workflow
   - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is correct method to update the tunables of the pre-created experiment for new runs.
 
-- **Install 'jq' binary**: Make sure you have `jq` installed in your system if not please install it as it is used in some APIs to filter path. 
+- **Install 'jq'**: Make sure you have `jq` installed in your system if not please install it as it is used in some APIs to filter path.
+
+- **Derive Tunables**: To derive tunables for preparing API commands [check here](https://uditgaurav.github.io/hce-api-template//#derive-tunables).
 
 - **Download 'hce-api' binary**: 
   - Follow the below-mentioned steps to install 'hce-api' binary. It will be used to prepare the API commands based on the provided tunables.
@@ -87,7 +89,6 @@ The above tunables are mandatory to provide. You need to replace it in the given
 **Non-Interactive Mode:**
 
 - Provide the values in the flags given below to get the API command in a file.
-- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
 
 ```bash
 ./hce-api generate --api launch-experiment --hce-endpoint=<HCE-ENDPOINT> \
@@ -107,7 +108,6 @@ The default value for `--file-name` is `hce-api.sh`, all other variables are man
 
 - Run the downloaded `hce-api` binary as shown below. It will not trigger the chaos but will prepare the launch command in a file:
 
-- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
 
 ```bash
 $ ./hce-api
@@ -155,7 +155,6 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 **Non-Interactive Mode:**
 
 - Provide the values in the flags given below to get the API command in a file.
-- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
 
 ```bash
 ./hce-api generate --api monitor-experiment --hce-endpoint=<HCE-ENDPOINT> \
@@ -174,9 +173,7 @@ The default value for `--file-name` is `hce-api.sh`, all other variables are man
 **Interactive Mode:**
 
 - Run the downloaded `hce-api` binary as shown below. It will not trigger the command but will prepare the monitor command in a given file:
-- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
 
-- To know more about any tunables [check here](https://uditgaurav.github.io/hce-api-template//#derive-tunables).
 
 ```bash
 $ ./hce-api
@@ -257,7 +254,6 @@ This contains the API to get the resilience score for a workflow run and validat
 **Non-Interactive Mode:**
 
 - Provide the values in the flags given below to get the API command in a file.
-- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
 
 ```bash
 ./hce-api generate --api validate-resilience-score --hce-endpoint=<HCE-ENDPOINT> \
@@ -276,9 +272,6 @@ The default value for `--file-name` is `hce-api.sh`, all other variables are man
 **Interactive Mode:**
 
 - Run the downloaded `hce-api` binary as shown below. It will not trigger the command but will prepare the monitor command in a given file:
-- Please refer [derive tunables](https://uditgaurav.github.io/hce-api-template//#derive-tunables) section to know more about the tunables.
-
-- To know more about any tunables [check here](https://uditgaurav.github.io/hce-api-template//#derive-tunables).
 
 ```bash
 $ ./hce-api
