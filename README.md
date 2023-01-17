@@ -18,7 +18,7 @@ This contains the API templates to perform a chaos experiment in an automated wa
   - Select the right set of experiments you want to include in the workflow
   - Provide desired tunables in the experiment. At any point in time, you can change the tunables and save it - this won't impact the overall API calls, infact this is correct method to update the tunables of the pre-created experiment for new runs.
 
-- **Install 'jq'**: Make sure you have `jq` installed in your system if not please install it as it is used in some APIs to filter path.
+- **Install 'jq'**: Make sure you have `jq` installed in your system if not, please install it as it is used in some APIs to filter path.
 
 - **Derive Tunables**: To derive tunables for preparing API commands [check here](https://uditgaurav.github.io/hce-api-template//#derive-tunables).
 
