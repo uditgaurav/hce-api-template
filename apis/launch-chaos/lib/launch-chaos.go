@@ -3,7 +3,6 @@ package lib
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"os/exec"
 
@@ -21,16 +20,18 @@ func LaunchChaos(apiDetials types.APIDetials, mode string) error {
 
 	err := os.Chmod(apiDetials.FileName, 0755)
     if err != nil {
-        fmt.Println(err)
+        return err
     }
 
-	cmd := exec.Command("bash", "-c", "./%v", apiDetials.FileName)
-	stdout, err := cmd.Output()
+	cmd := exec.Command("bash", apiDetials.FileName)
+
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println("Error:", err)
 		return err
 	}
-	fmt.Println(strings.TrimSpace(string(stdout)))
+
+	fmt.Println(string(output))
 	return nil
 }
 
