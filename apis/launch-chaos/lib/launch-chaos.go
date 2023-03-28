@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"os/exec"
@@ -17,6 +18,11 @@ func LaunchChaos(apiDetials types.APIDetials, mode string) error {
 	if err := ApiToLanchExperiment(apiDetials, mode); err != nil {
 		return errors.Errorf("fail to create template file with API to launch chaos experiment, err: %v,", err)
 	}
+
+	err := os.Chmod(apiDetials.FileName, 0755)
+    if err != nil {
+        fmt.Println(err)
+    }
 
 	cmd := exec.Command("bash", "-c", "./%v", apiDetials.FileName)
 	stdout, err := cmd.Output()
