@@ -14,7 +14,6 @@ import (
 // LaunchChaos will prepare the api command to get re-run a given workflow
 func LaunchChaos(apiDetials types.APIDetials, mode string) error {
 
-	fmt.Printf("The account id is: %v", apiDetials.AccoundID)
 	if err := ApiToLanchExperiment(apiDetials, mode); err != nil {
 		return errors.Errorf("fail to create template file with API to launch chaos experiment, err: %v,", err)
 	}
@@ -55,8 +54,5 @@ func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 	if err := common.WriteCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}
-
-	fmt.Println("The file containing the API command is created successfully")
-
 	return nil
 }

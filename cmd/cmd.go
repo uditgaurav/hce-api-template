@@ -66,11 +66,8 @@ var LaunchChaos = &cobra.Command{
 		case "monitor-experiment":
 
 			apiDetials.Delay, err = cmd.Flags().GetString("delay")
-			fmt.Println(err)
 			apiDetials.Timeout, err = cmd.Flags().GetString("timeout")
-			fmt.Println(err)
 			apiDetials.NotifyID, err = cmd.Flags().GetString("notifyID")
-			fmt.Println(err)
 
 			if err := monitorChaos.MonitorChaosExperiment(apiDetials, mode); err != nil {
 				fmt.Printf("monitor chaos failed, err: %v,", err)

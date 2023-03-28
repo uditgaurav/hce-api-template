@@ -38,7 +38,7 @@ func MonitorChaosExperiment(apiDetials types.APIDetials, mode string) error {
 				fmt.Println("Error:", err)
 				return err
 			}
-			if strings.TrimSpace(string(output)) != "Completed" {
+			if strings.TrimSpace(string(output)) != "Completed" && strings.TrimSpace(string(output)) !=  "Stopped" {
 				fmt.Printf("Waiting for experiment completion... CurrentState: %v", string(output))
 				return errors.Errorf("Waiting for experiment completion... CurrentState: %v", string(output))
 			}
@@ -56,6 +56,8 @@ func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
 	if err := common.ValidateAPITunables(ApiDetials); err != nil {
 		return err
 	}
+
+	
 
 	cmdOutput := fmt.Sprintf(`
 	curl -s --location 'https://app.harness.io/gateway/chaos/manager/api/query?accountIdentifier=%v' \
