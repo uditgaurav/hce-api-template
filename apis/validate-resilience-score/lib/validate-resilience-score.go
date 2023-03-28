@@ -56,7 +56,7 @@ func PrepareResilienceScoreCMD(ApiDetials types.APIDetials, mode string) error {
 	// 	| jq -r '.data.listWorkflowRuns.workflowRuns[0].executionData' |jq -r '.nodes'|  jq 'map(select(has("chaosData"))) | .[].chaosData.probeSuccessPercentage'
 	// 	`, ApiDetials.HCEEndpoint, ApiDetials.AccessID, ApiDetials.AccessKey, ApiDetials.HCEEndpoint, ApiDetials.HCEEndpoint, ApiDetials.ProjectID, ApiDetials.WorkflowID)
 
-		cmdOutput := fmt.Sprintf(`curl %v`,ApiDetials.AccoundID)
+	cmdOutput := fmt.Sprintf(`curl %v`, ApiDetials.AccoundID)
 
 	if err := common.WriteCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err

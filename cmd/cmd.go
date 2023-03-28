@@ -17,7 +17,7 @@ var LaunchChaos = &cobra.Command{
 	Use:     "generate",
 	Short:   "Launches Chaos Experiment Workflow",
 	Long:    "Launches Chaos Experiment Workflow",
-	Example: "./hce-api-saas generate --api launch-experiment --account-id=cTU1lRSWS2SSRV9phKvuOA --project-id ChaosTestinProd2 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --api-key nEdGNDDrTFHyCnl --file-name hce-api.sh",
+	Example: "./hce-api-saas generate --api launch-experiment --account-id=cTU1lRSWS2KWNV9phKvuOA --project-id ChaosTestinProd2 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --api-key nEdGNDDrTFHyCnl --file-name hce-api.sh",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		apiDetials := types.APIDetials{}
@@ -29,12 +29,30 @@ var LaunchChaos = &cobra.Command{
 			os.Exit(1)
 		}
 
-		apiDetials.FileName, _ = cmd.Flags().GetString("file-name")
-		apiDetials.AccoundID, _ = cmd.Flags().GetString("account-id")
-		apiDetials.ProjectID, _ = cmd.Flags().GetString("project-id")
-		apiDetials.WorkflowID, _ = cmd.Flags().GetString("workflow-id")
-		apiDetials.ApiKey, _ = cmd.Flags().GetString("api-key")
-		apiDetials.API, _ = cmd.Flags().GetString("api")
+		apiDetials.FileName, err = cmd.Flags().GetString("file-name")
+		if err != nil {
+			fmt.Println(err)
+		}
+		apiDetials.AccoundID, err = cmd.Flags().GetString("account-id")
+		if err != nil {
+			fmt.Println(err)
+		}
+		apiDetials.ProjectID, err = cmd.Flags().GetString("project-id")
+		if err != nil {
+			fmt.Println(err)
+		}
+		apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
+		if err != nil {
+			fmt.Println(err)
+		}
+		apiDetials.ApiKey, err = cmd.Flags().GetString("api-key")
+		if err != nil {
+			fmt.Println(err)
+		}
+		apiDetials.API, err = cmd.Flags().GetString("api")
+		if err != nil {
+			fmt.Println(err)
+		}
 
 		switch api {
 		case "launch-experiment":
@@ -49,6 +67,7 @@ var LaunchChaos = &cobra.Command{
 
 			apiDetials.Delay, err = cmd.Flags().GetString("delay")
 			apiDetials.Timeout, err = cmd.Flags().GetString("timeout")
+			apiDetials.WorkflowRunID, err = cmd.Flags().GetString("workflow-run-id")
 
 			if err := monitorChaos.MonitorChaosExperiment(apiDetials, mode); err != nil {
 				fmt.Printf("monitor chaos failed, err: %v,", err)
@@ -71,7 +90,7 @@ var LaunchChaos = &cobra.Command{
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "hce-api",
+	Use:   "hce-api-saas",
 	Short: "CLI to generate api",
 }
 
@@ -82,11 +101,12 @@ func init() {
 	LaunchChaos.Flags().String("api", "", "Set the name of target api")
 	LaunchChaos.Flags().String("project-id", "", "Set the hce project id")
 	LaunchChaos.Flags().String("account-id", "", "Set the account id")
-	LaunchChaos.Flags().String("workflow-id", "", "Set the workflow id")
+	LaunchChaos.Flags().String("workflow-id", "abc", "Set the workflow id")
+	LaunchChaos.Flags().String("workflow-run-id", "abc", "Set the workflow id")
 	LaunchChaos.Flags().String("api-key", "", "Set the api key")
 	LaunchChaos.Flags().String("file-name", "", "The target file name which contains the API command")
 	LaunchChaos.Flags().String("delay", "2", "The delay provided for multiple iteration")
-	LaunchChaos.Flags().String("retries", "180", "The timeout provided for multiple iteration")
+	LaunchChaos.Flags().String("timeout", "180", "The timeout provided for multiple iteration")
 
 }
 func Execute() {

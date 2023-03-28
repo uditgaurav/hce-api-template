@@ -24,22 +24,25 @@ func MonitorChaosExperiment(apiDetials types.APIDetials, mode string) error {
 	delay, _ := strconv.Atoi(apiDetials.Delay)
 	timeout, _ := strconv.Atoi(apiDetials.Timeout)
 
+	fmt.Printf("The timeout: %v and delay: %v \n", timeout, delay)
+
 	return retry.
 		Times(uint(timeout / delay)).
 		Wait(time.Duration(delay) * time.Second).
 		Try(func(attempt uint) error {
 
-			cmd := exec.Command("bash", "-c", "./%v", apiDetials.FileName)
-			stdout, err := cmd.Output()
+			cmd := exec.Command("bash", apiDetials.FileName)
+
+			output, err := cmd.CombinedOutput()
 			if err != nil {
-				fmt.Println(err.Error())
+				fmt.Println("Error:", err)
 				return err
 			}
-
-			if strings.TrimSpace(string(stdout)) != "Succeeded" {
-				return errors.Errorf("Waiting for experiment completion... CurrentState: %v", string(stdout))
+			if strings.TrimSpace(string(output)) != "Completed" {
+				fmt.Printf("Waiting for experiment completion... CurrentState: %v", string(output))
+				return errors.Errorf("Waiting for experiment completion... CurrentState: %v", string(output))
 			}
-			fmt.Printf("Experiment completed, CurrentState: %v", string(stdout))
+			fmt.Printf("Experiment completed, CurrentState: %v", string(output))
 			return nil
 		})
 }
@@ -54,20 +57,12 @@ func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
 		return err
 	}
 
-	// cmdOutput := fmt.Sprintf(`curl '%v/api/query' \
-	// -H 'Accept-Encoding: gzip, deflate, br' \
-	// -H 'Content-Type: application/json' \
-	// -H 'Accept: application/json' \
-	// -H 'Connection: keep-alive' \
-	// -H 'DNT: 1' \
-	// -H "Authorization: $(curl -s -H "Content-Type: application/json" \
-	// -d '{"access_id":"%v","access_key":"%v"}' %v/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" \
-	// -H 'Origin: %v' \
-	// --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  } \n }\n}","variables":{"request":{"projectID":"%v","workflowIDs":["%v"]}}}' \
-	// --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'`, ApiDetials.HCEEndpoint, ApiDetials.AccessID, ApiDetials.AccessKey, ApiDetials.HCEEndpoint, ApiDetials.HCEEndpoint, ApiDetials.ProjectID, ApiDetials.WorkflowID)
-
-	
-	if err := common.WriteCmdToFile(ApiDetials.FileName, ""); err != nil {
+	cmdOutput := fmt.Sprintf(`
+	curl -s --location 'https://app.harness.io/gateway/chaos/manager/api/query?accountIdentifier=%v' \
+	--header 'x-api-key: %v' \
+	--header 'Content-Type: application/json' \
+	--data '{"query":"query ListWorkflowRun(\n  $identifiers: IdentifiersRequest!,\n  $request: ListWorkflowRunRequest!\n) {\n  listWorkflowRun(\n    identifiers: $identifiers,\n    request: $request\n  ) {\n    totalNoOfWorkflowRuns\n    workflowRuns {\n      identifiers {\n          orgIdentifier\n          projectIdentifier\n          accountIdentifier\n      }\n      workflowRunID\n      workflowID\n      weightages {\n        experimentName\n        weightage\n      }\n      updatedAt\n      createdAt\n      infra {\n        infraID\n        infraNamespace\n        infraScope\n        isActive\n        isInfraConfirmed\n      }\n      workflowName\n      workflowManifest\n      phase\n      resiliencyScore\n      experimentsPassed\n      experimentsFailed\n      experimentsAwaited\n      experimentsStopped\n      experimentsNa\n      totalExperiments\n      executionData\n      isRemoved\n      updatedBy {\n        userID\n        username\n      }\n      createdBy {\n        username\n        userID\n      }\n    }\n  }\n}","variables":{"identifiers":{"orgIdentifier":"default","accountIdentifier":"%v","projectIdentifier":"%v"},"request":{"workflowRunIDs":["%v"]}}}' --compressed | jq -r '.data.listWorkflowRun.workflowRuns[0].phase'`, ApiDetials.AccoundID, ApiDetials.ApiKey, ApiDetials.AccoundID, ApiDetials.ProjectID, ApiDetials.WorkflowRunID)
+	if err := common.WriteCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}
 	fmt.Println("The file containing the API command is created successfully")
@@ -78,13 +73,15 @@ func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
 // getAPITunablesForExperimentExecution will get the values to prepare api command in interactive mode
 func getAPITunablesForExperimentExecution(ApiDetials types.APIDetials) types.APIDetials {
 
-	fmt.Print("Provide the HCE endpoint: ")
+	fmt.Print("Provide the account id: ")
 	fmt.Scanf("%s", &ApiDetials.AccoundID)
 	fmt.Print("Provide the Project ID: ")
 	fmt.Scanf("%s", &ApiDetials.ProjectID)
 	fmt.Print("Provide the Workflow ID: ")
 	fmt.Scanf("%s", &ApiDetials.WorkflowID)
-	fmt.Print("Provide the HCE Api Key: ")
+	fmt.Print("Provide the Workflow Run ID: ")
+	fmt.Scanf("%s", &ApiDetials.WorkflowRunID)
+	fmt.Print("Provide the api key: ")
 	fmt.Scanf("%s", &ApiDetials.ApiKey)
 	fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")
 	fmt.Scanf("%s", &ApiDetials.FileName)

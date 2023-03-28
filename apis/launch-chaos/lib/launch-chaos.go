@@ -14,15 +14,15 @@ import (
 // LaunchChaos will prepare the api command to get re-run a given workflow
 func LaunchChaos(apiDetials types.APIDetials, mode string) error {
 
-	fmt.Printf("The account id is: %v",apiDetials.AccoundID)
+	fmt.Printf("The account id is: %v", apiDetials.AccoundID)
 	if err := ApiToLanchExperiment(apiDetials, mode); err != nil {
 		return errors.Errorf("fail to create template file with API to launch chaos experiment, err: %v,", err)
 	}
 
 	err := os.Chmod(apiDetials.FileName, 0755)
-    if err != nil {
-        return err
-    }
+	if err != nil {
+		return err
+	}
 
 	cmd := exec.Command("bash", apiDetials.FileName)
 
@@ -48,7 +48,7 @@ func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 
 	cmdOutput := fmt.Sprintf(
 		`
-	curl --location 'https://app.harness.io/gateway/chaos/manager/api/query?accountIdentifier=%v' \
+	curl -s --location 'https://app.harness.io/gateway/chaos/manager/api/query?accountIdentifier=%v' \
     --header 'x-api-key: %v' \
     --header 'Content-Type: application/json' \
     --data '{"query":"mutation RunChaosExperiment(\n  $workflowID: String!,\n  $identifiers: IdentifiersRequest!\n) {\n  runChaosExperiment(\n    workflowID: $workflowID,\n    identifiers: $identifiers\n  ) {\n    notifyID\n  }\n}","variables":{"workflowID":"%v","identifiers":{"orgIdentifier":"default","accountIdentifier":"%v","projectIdentifier":"%v"}}}'`, ApiDetials.AccoundID, ApiDetials.ApiKey, ApiDetials.WorkflowID, ApiDetials.AccoundID, ApiDetials.ProjectID)
