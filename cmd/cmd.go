@@ -102,7 +102,7 @@ func init() {
 	LaunchChaos.Flags().String("project-id", "", "Set the hce project id")
 	LaunchChaos.Flags().String("account-id", "", "Set the account id")
 	LaunchChaos.Flags().String("workflow-id", "abc", "Set the workflow id")
-	LaunchChaos.Flags().String("notifyID", "abc", "Set the workflow id")
+	LaunchChaos.Flags().String("notifyID", "abc", "Set the notifyID id")
 	LaunchChaos.Flags().String("api-key", "", "Set the api key")
 	LaunchChaos.Flags().String("file-name", "", "The target file name which contains the API command")
 	LaunchChaos.Flags().String("delay", "2", "The delay provided for multiple iteration")

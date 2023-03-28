@@ -47,9 +47,8 @@ func ValidateAPITunables(ApiDetials types.APIDetials) error {
 		return errors.Errorf("ProjectID can't be empty. %v", VariableNotFoundError)
 
 	}
-	if strings.TrimSpace(ApiDetials.NotifyID) == "" {
-		return errors.Errorf("NotifyID can't be empty %v", VariableNotFoundError)
-
+	if strings.TrimSpace(ApiDetials.WorkflowID) == "" {
+		return errors.Errorf("WorkflowID can't be empty %v", VariableNotFoundError)
 	}
 	if strings.TrimSpace(ApiDetials.ApiKey) == "" {
 		return errors.Errorf("AccessKey can't be empty %v", VariableNotFoundError)
