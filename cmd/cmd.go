@@ -66,8 +66,17 @@ var LaunchChaos = &cobra.Command{
 		case "monitor-experiment":
 
 			apiDetials.Delay, err = cmd.Flags().GetString("delay")
+			if err != nil{
+				return err
+			}
 			apiDetials.Timeout, err = cmd.Flags().GetString("timeout")
-			apiDetials.WorkflowRunID, err = cmd.Flags().GetString("workflow-run-id")
+			if err != nil{
+				return err
+			}
+			apiDetials.NotifyID, err = cmd.Flags().GetString("notifyID")
+			if err != nil{
+				return err
+			}
 
 			if err := monitorChaos.MonitorChaosExperiment(apiDetials, mode); err != nil {
 				fmt.Printf("monitor chaos failed, err: %v,", err)
@@ -102,7 +111,7 @@ func init() {
 	LaunchChaos.Flags().String("project-id", "", "Set the hce project id")
 	LaunchChaos.Flags().String("account-id", "", "Set the account id")
 	LaunchChaos.Flags().String("workflow-id", "abc", "Set the workflow id")
-	LaunchChaos.Flags().String("workflow-run-id", "abc", "Set the workflow id")
+	LaunchChaos.Flags().String("notifyID", "abc", "Set the workflow id")
 	LaunchChaos.Flags().String("api-key", "", "Set the api key")
 	LaunchChaos.Flags().String("file-name", "", "The target file name which contains the API command")
 	LaunchChaos.Flags().String("delay", "2", "The delay provided for multiple iteration")

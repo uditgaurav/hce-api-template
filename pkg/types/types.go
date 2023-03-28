@@ -2,7 +2,7 @@ package types
 
 type APIDetials struct {
 	AccoundID               string
-	WorkflowRunID           string
+	NotifyID           string
 	ApiKey                  string
 	ProjectID               string
 	WorkflowID              string

@@ -31,7 +31,7 @@ func LaunchChaos(apiDetials types.APIDetials, mode string) error {
 		fmt.Println("Error:", err)
 		return err
 	}
-
+	
 	fmt.Println(string(output))
 	return nil
 }
@@ -51,7 +51,7 @@ func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 	curl -s --location 'https://app.harness.io/gateway/chaos/manager/api/query?accountIdentifier=%v' \
     --header 'x-api-key: %v' \
     --header 'Content-Type: application/json' \
-    --data '{"query":"mutation RunChaosExperiment(\n  $workflowID: String!,\n  $identifiers: IdentifiersRequest!\n) {\n  runChaosExperiment(\n    workflowID: $workflowID,\n    identifiers: $identifiers\n  ) {\n    notifyID\n  }\n}","variables":{"workflowID":"%v","identifiers":{"orgIdentifier":"default","accountIdentifier":"%v","projectIdentifier":"%v"}}}'`, ApiDetials.AccoundID, ApiDetials.ApiKey, ApiDetials.WorkflowID, ApiDetials.AccoundID, ApiDetials.ProjectID)
+    --data '{"query":"mutation RunChaosExperiment(\n  $workflowID: String!,\n  $identifiers: IdentifiersRequest!\n) {\n  runChaosExperiment(\n    workflowID: $workflowID,\n    identifiers: $identifiers\n  ) {\n    notifyID\n  }\n}","variables":{"workflowID":"%v","identifiers":{"orgIdentifier":"default","accountIdentifier":"%v","projectIdentifier":"%v"}}}' --compressed`, ApiDetials.AccoundID, ApiDetials.ApiKey, ApiDetials.WorkflowID, ApiDetials.AccoundID, ApiDetials.ProjectID)
 	if err := common.WriteCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}
