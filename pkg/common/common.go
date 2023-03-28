@@ -41,7 +41,7 @@ func WriteCmdToFile(fileName, cmd string) error {
 func ValidateAPITunables(ApiDetials types.APIDetials) error {
 
 	if strings.TrimSpace(ApiDetials.AccoundID) == "" {
-		return errors.Errorf("Account ID can't be empty, please provide a valid endpoint value")
+		return errors.Errorf("Account ID can't be empty, please provide a valid account id")
 	}
 	if strings.TrimSpace(ApiDetials.ProjectID) == "" {
 		return errors.Errorf("ProjectID can't be empty. %v", VariableNotFoundError)
