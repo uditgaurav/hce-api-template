@@ -2,7 +2,7 @@ package lib
 
 import (
 	"fmt"
-	"strconv"
+	"strings"
 
 	"os/exec"
 
@@ -18,18 +18,15 @@ func ValidateResilienceScore(apiDetials types.APIDetials, mode string) error {
 		return errors.Errorf("fail to create template file with API to validate resilience score for a experiment, err: %v,", err)
 	}
 
-	cmd := exec.Command("bash", "-c", "./%v", apiDetials.FileName)
-	stdout, err := cmd.Output()
+	cmd := exec.Command("bash", apiDetials.FileName)
+
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println("Error:", err)
 		return err
 	}
 
-	output, _ := strconv.Atoi(string(stdout))
-
-	if output != apiDetials.ExpectedResilienceScore {
-		return errors.Errorf("resilience score check is failed, err: %v", err)
-	}
+	fmt.Println(strings.TrimSpace(string(output)))
 	return nil
 }
 
@@ -43,26 +40,15 @@ func PrepareResilienceScoreCMD(ApiDetials types.APIDetials, mode string) error {
 		return err
 	}
 
-	// cmdOutput := fmt.Sprintf(
-	// 	`curl '%v/api/query' \
-	// 	-H 'Accept-Encoding: gzip, deflate, br' \
-	// 	-H 'Content-Type: application/json' \
-	// 	-H 'Accept: application/json' \
-	// 	-H 'Connection: keep-alive' \
-	// 	-H 'DNT: 1' \
-	// 	-H  "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"%v","access_key":"%v"}' %v/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)"  \
-	// 	-H 'Origin: %v' \
-	// 	--data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n  listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n    workflowID\n   phase\n   executionData\n  }\n }\n}","variables":{"request":{"projectID":"%v","workflowIDs":["%v"]}}}' --compressed \
-	// 	| jq -r '.data.listWorkflowRuns.workflowRuns[0].executionData' |jq -r '.nodes'|  jq 'map(select(has("chaosData"))) | .[].chaosData.probeSuccessPercentage'
-	// 	`, ApiDetials.HCEEndpoint, ApiDetials.AccessID, ApiDetials.AccessKey, ApiDetials.HCEEndpoint, ApiDetials.HCEEndpoint, ApiDetials.ProjectID, ApiDetials.WorkflowID)
-
-	cmdOutput := fmt.Sprintf(`curl %v`, ApiDetials.AccoundID)
+	cmdOutput := fmt.Sprintf(`
+		curl -s --location 'https://app.harness.io/gateway/chaos/manager/api/query?accountIdentifier=%v' \
+		--header 'x-api-key: %v' \
+		--header 'Content-Type: application/json' \
+		--data '{"query":"query ListWorkflowRun(\n  $identifiers: IdentifiersRequest!,\n  $request: ListWorkflowRunRequest!\n) {\n  listWorkflowRun(\n    identifiers: $identifiers,\n    request: $request\n  ) {\n    totalNoOfWorkflowRuns\n    workflowRuns {\n      identifiers {\n          orgIdentifier\n          projectIdentifier\n          accountIdentifier\n      }\n      workflowRunID\n      workflowID\n      weightages {\n        experimentName\n        weightage\n      }\n      updatedAt\n      createdAt\n      infra {\n        infraID\n        infraNamespace\n        infraScope\n        isActive\n        isInfraConfirmed\n      }\n      workflowName\n      workflowManifest\n      phase\n      resiliencyScore\n      experimentsPassed\n      experimentsFailed\n      experimentsAwaited\n      experimentsStopped\n      experimentsNa\n      totalExperiments\n      executionData\n      isRemoved\n      updatedBy {\n        userID\n        username\n      }\n      createdBy {\n        username\n        userID\n      }\n    }\n  }\n}","variables":{"identifiers":{"orgIdentifier":"default","accountIdentifier":"%v","projectIdentifier":"%v"},"request":{"notifyIDs":["%v"]}}}' --compressed | jq -r '.data.listWorkflowRun.workflowRuns[0].executionData' |jq -r '.nodes'|  jq 'map(select(has("chaosData"))) | .[].chaosData.probeSuccessPercentage'`,ApiDetials.AccoundID, ApiDetials.ApiKey, ApiDetials.AccoundID, ApiDetials.ProjectID, ApiDetials.NotifyID)
 
 	if err := common.WriteCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}
-	fmt.Println("The file containing the API command is created successfully")
-
 	return nil
 }
 
@@ -73,8 +59,8 @@ func getAPITunablesForExperimentExecution(ApiDetials types.APIDetials) types.API
 	fmt.Scanf("%s", &ApiDetials.AccoundID)
 	fmt.Print("Provide the Project ID: ")
 	fmt.Scanf("%s", &ApiDetials.ProjectID)
-	fmt.Print("Provide the Workflow ID: ")
-	fmt.Scanf("%s", &ApiDetials.WorkflowID)
+	fmt.Print("Provide the NotifyID ID: ")
+	fmt.Scanf("%s", &ApiDetials.NotifyID)
 	fmt.Print("Provide the HCE Api Key: ")
 	fmt.Scanf("%s", &ApiDetials.ApiKey)
 	fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")

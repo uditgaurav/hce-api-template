@@ -77,7 +77,7 @@ var LaunchChaos = &cobra.Command{
 
 		case "validate-resilience-score":
 
-			apiDetials.ExpectedResilienceScore, err = cmd.Flags().GetInt("100")
+			apiDetials.NotifyID, err = cmd.Flags().GetString("notifyID")
 
 			if err := validateRR.ValidateResilienceScore(apiDetials, mode); err != nil {
 				fmt.Printf("fail to create template file with API to validate resilience score of the workflow, err: %v,", err)
