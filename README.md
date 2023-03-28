@@ -91,15 +91,15 @@ The above tunables are mandatory to provide. You need to replace it in the given
 - Provide the values in the flags given below to get the API command in a file.
 
 ```bash
-./hce-api generate --api launch-experiment --hce-endpoint=<HCE-ENDPOINT> \
+./hce-api generate --api launch-experiment --account-id=<ACCOUNT-ID> \
 --project-id <PROJECT-ID> --workflow-id <WORKFLOW-ID> \
---access-key <ACCESS-KEY> --access-id <ACCESS-ID> --file-name <FILE-NAME>
+--api-key <API-KEY>  --file-name <FILE-NAME>
 ```
 
 Example:
 
 ```bash
-./hce-api generate --api launch-experiment --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh
+./hce-api generate --api launch-experiment --account-id=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --api-key nEdGNDDrTFHyCnl --file-name hce-api.sh
 ```
 
 The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory.
@@ -157,15 +157,15 @@ This contains the API to monitor the Chaos Experiment that is this API will help
 - Provide the values in the flags given below to get the API command in a file.
 
 ```bash
-./hce-api generate --api monitor-experiment --hce-endpoint=<HCE-ENDPOINT> \
+./hce-api generate --api monitor-experiment --account-id=<ACCOUNT-ID> \
 --project-id <PROJECT-ID> --workflow-id <WORKFLOW-ID> \
---access-key <ACCESS-KEY> --access-id <ACCESS-ID> --file-name <FILE-NAME>
+--api-key <API-KEY>  --file-name <FILE-NAME>
 ```
 
 Example:
 
 ```bash
-./hce-api generate --api monitor-experiment --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh
+./hce-api generate --api monitor-experiment --account-id=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --api-key nEdGNDDrTFHyCnl --file-name hce-api.sh
 ```
 
 The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory. 
@@ -256,15 +256,15 @@ This contains the API to get the resilience score for a workflow run and validat
 - Provide the values in the flags given below to get the API command in a file.
 
 ```bash
-./hce-api generate --api validate-resilience-score --hce-endpoint=<HCE-ENDPOINT> \
+./hce-api generate --api validate-resilience-score --account-id=<ACCOUNT-ID> \
 --project-id <PROJECT-ID> --workflow-id <WORKFLOW-ID> \
---access-key <ACCESS-KEY> --access-id <ACCESS-ID> --file-name <FILE-NAME>
+--api-key <API-KEY>  --file-name <FILE-NAME>
 ```
 
 Example:
 
 ```bash
-./hce-api generate --api validate-resilience-score --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh
+./hce-api generate --api validate-resilience-score --account-id=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --api-key nEdGNDDrTFHyCnl --file-name hce-api.sh
 ```
 
 The default value for `--file-name` is `hce-api.sh`, all other variables are mandatory.

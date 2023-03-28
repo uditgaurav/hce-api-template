@@ -39,16 +39,11 @@ func ApiToLanchExperiment(ApiDetials types.APIDetials, mode string) error {
 	}
 
 	cmdOutput := fmt.Sprintf(
-		`curl '%v/api/query' \
-	-H 'Accept-Encoding: gzip, deflate, br' \
-	-H 'Content-Type: application/json' \
-	-H 'Accept: application/json' \
-	-H 'Connection: keep-alive' \
-	-H 'DNT: 1' \
-	-H "Authorization: $(curl -s -H "Content-Type: application/json" -d '{"access_id":"%v","access_key":"%v"}' %v/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" \
-	-H 'Origin: %v/api/' \
-	--data-binary '{"query":"mutation reRunChaosWorkFlow($workflowID: String!, $projectID: String!) {reRunChaosWorkFlow(workflowID: $workflowID, projectID: $projectID)}","variables":{"workflowID":"%v","projectID":"%v"}}' --compressed`, ApiDetials.HCEEndpoint, ApiDetials.AccessID, ApiDetials.AccessKey, ApiDetials.HCEEndpoint, ApiDetials.HCEEndpoint, ApiDetials.WorkflowID, ApiDetials.ProjectID)
-
+		`
+	curl --location 'https://app.harness.io/gateway/chaos/manager/api/query?accountIdentifier=%v' \
+    --header 'x-api-key: %v' \
+    --header 'Content-Type: application/json' \
+    --data '{"query":"mutation RunChaosExperiment(\n  $workflowID: String!,\n  $identifiers: IdentifiersRequest!\n) {\n  runChaosExperiment(\n    workflowID: $workflowID,\n    identifiers: $identifiers\n  ) {\n    notifyID\n  }\n}","variables":{"workflowID":"%v","identifiers":{"orgIdentifier":"default","accountIdentifier":"%v","projectIdentifier":"%v"}}}'`, ApiDetials.AccoundID, ApiDetials.ApiKey, ApiDetials.WorkflowID, ApiDetials.AccoundID, ApiDetials.ProjectID)
 	if err := common.WriteCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
 		return err
 	}

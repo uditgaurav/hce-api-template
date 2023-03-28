@@ -40,8 +40,8 @@ func WriteCmdToFile(fileName, cmd string) error {
 // ValidateAPITunables will validate the inputs used to prepare the api command
 func ValidateAPITunables(ApiDetials types.APIDetials) error {
 
-	if strings.TrimSpace(ApiDetials.HCEEndpoint) == "" {
-		return errors.Errorf("HCE endpoint can't be empty, please provide a valid endpoint value")
+	if strings.TrimSpace(ApiDetials.AccoundID) == "" {
+		return errors.Errorf("Account ID can't be empty, please provide a valid endpoint value")
 	}
 	if strings.TrimSpace(ApiDetials.ProjectID) == "" {
 		return errors.Errorf("ProjectID can't be empty. %v", VariableNotFoundError)
@@ -51,12 +51,9 @@ func ValidateAPITunables(ApiDetials types.APIDetials) error {
 		return errors.Errorf("WorkflowID can't be empty %v", VariableNotFoundError)
 
 	}
-	if strings.TrimSpace(ApiDetials.AccessKey) == "" {
+	if strings.TrimSpace(ApiDetials.ApiKey) == "" {
 		return errors.Errorf("AccessKey can't be empty %v", VariableNotFoundError)
 
-	}
-	if strings.TrimSpace(ApiDetials.AccessID) == "" {
-		return errors.Errorf("AccessID can't be empty %v", VariableNotFoundError)
 	}
 
 	return nil
@@ -65,16 +62,14 @@ func ValidateAPITunables(ApiDetials types.APIDetials) error {
 // GetAPITunablesForExperimentExecution will get the values to prepare api command in interactive mode
 func GetAPITunablesForExperimentExecution(ApiDetials types.APIDetials) types.APIDetials {
 
-	fmt.Print("Provide the HCE endpoint: ")
-	fmt.Scanf("%s", &ApiDetials.HCEEndpoint)
+	fmt.Print("Provide the HCE AccoundID: ")
+	fmt.Scanf("%s", &ApiDetials.AccoundID)
 	fmt.Print("Provide the Project ID: ")
 	fmt.Scanf("%s", &ApiDetials.ProjectID)
 	fmt.Print("Provide the Workflow ID: ")
 	fmt.Scanf("%s", &ApiDetials.WorkflowID)
-	fmt.Print("Provide the HCE Access Key: ")
-	fmt.Scanf("%s", &ApiDetials.AccessKey)
-	fmt.Print("Provide the HCE Access ID: ")
-	fmt.Scanf("%s", &ApiDetials.AccessID)
+	fmt.Print("Provide the HCE ApiKey: ")
+	fmt.Scanf("%s", &ApiDetials.ApiKey)
 	fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")
 	fmt.Scanf("%s", &ApiDetials.FileName)
 	fmt.Print("Provide the delay[Default 2]: ")

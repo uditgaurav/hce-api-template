@@ -54,19 +54,20 @@ func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
 		return err
 	}
 
-	cmdOutput := fmt.Sprintf(`curl '%v/api/query' \
-	-H 'Accept-Encoding: gzip, deflate, br' \
-	-H 'Content-Type: application/json' \
-	-H 'Accept: application/json' \
-	-H 'Connection: keep-alive' \
-	-H 'DNT: 1' \
-	-H "Authorization: $(curl -s -H "Content-Type: application/json" \
-	-d '{"access_id":"%v","access_key":"%v"}' %v/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" \
-	-H 'Origin: %v' \
-	--data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  } \n }\n}","variables":{"request":{"projectID":"%v","workflowIDs":["%v"]}}}' \
-	--compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'`, ApiDetials.HCEEndpoint, ApiDetials.AccessID, ApiDetials.AccessKey, ApiDetials.HCEEndpoint, ApiDetials.HCEEndpoint, ApiDetials.ProjectID, ApiDetials.WorkflowID)
+	// cmdOutput := fmt.Sprintf(`curl '%v/api/query' \
+	// -H 'Accept-Encoding: gzip, deflate, br' \
+	// -H 'Content-Type: application/json' \
+	// -H 'Accept: application/json' \
+	// -H 'Connection: keep-alive' \
+	// -H 'DNT: 1' \
+	// -H "Authorization: $(curl -s -H "Content-Type: application/json" \
+	// -d '{"access_id":"%v","access_key":"%v"}' %v/auth/login/ctl | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)" \
+	// -H 'Origin: %v' \
+	// --data-binary '{"query":"query ( $request: ListWorkflowRunsRequest!) {\n listWorkflowRuns( request: $request) {\n  totalNoOfWorkflowRuns\n  workflowRuns {\n   workflowID\n   phase\n   executionData\n  } \n }\n}","variables":{"request":{"projectID":"%v","workflowIDs":["%v"]}}}' \
+	// --compressed | jq -r '.data.listWorkflowRuns.workflowRuns[0].phase'`, ApiDetials.HCEEndpoint, ApiDetials.AccessID, ApiDetials.AccessKey, ApiDetials.HCEEndpoint, ApiDetials.HCEEndpoint, ApiDetials.ProjectID, ApiDetials.WorkflowID)
 
-	if err := common.WriteCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
+	
+	if err := common.WriteCmdToFile(ApiDetials.FileName, ""); err != nil {
 		return err
 	}
 	fmt.Println("The file containing the API command is created successfully")
@@ -78,15 +79,13 @@ func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
 func getAPITunablesForExperimentExecution(ApiDetials types.APIDetials) types.APIDetials {
 
 	fmt.Print("Provide the HCE endpoint: ")
-	fmt.Scanf("%s", &ApiDetials.HCEEndpoint)
+	fmt.Scanf("%s", &ApiDetials.AccoundID)
 	fmt.Print("Provide the Project ID: ")
 	fmt.Scanf("%s", &ApiDetials.ProjectID)
 	fmt.Print("Provide the Workflow ID: ")
 	fmt.Scanf("%s", &ApiDetials.WorkflowID)
-	fmt.Print("Provide the HCE Access Key: ")
-	fmt.Scanf("%s", &ApiDetials.AccessKey)
-	fmt.Print("Provide the HCE Access ID: ")
-	fmt.Scanf("%s", &ApiDetials.AccessID)
+	fmt.Print("Provide the HCE Api Key: ")
+	fmt.Scanf("%s", &ApiDetials.ApiKey)
 	fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")
 	fmt.Scanf("%s", &ApiDetials.FileName)
 	fmt.Print("Provide the delay[Default 2]: ")

@@ -17,7 +17,7 @@ var LaunchChaos = &cobra.Command{
 	Use:     "generate",
 	Short:   "Launches Chaos Experiment Workflow",
 	Long:    "Launches Chaos Experiment Workflow",
-	Example: "./hce-api generate --api launch-experiment --hce-endpoint=http://ae1a8f465611b4c07bbbc2e7d669f533-1139615104.us-east-2.elb.amazonaws.com:9091/ --project-id abceb5f4-4268-4467-9818-ad6e3b6bfd78 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --access-key nEdGNDDrTFHyCnl --access-id adminNCWQu --file-name hce-api.sh",
+	Example: "./hce-api-saas generate --api launch-experiment --account-id=cTU1lRSWS2SSRV9phKvuOA --project-id ChaosTestinProd2 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --api-key nEdGNDDrTFHyCnl --file-name hce-api.sh",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		apiDetials := types.APIDetials{}
@@ -29,13 +29,12 @@ var LaunchChaos = &cobra.Command{
 			os.Exit(1)
 		}
 
-		apiDetials.FileName, err = cmd.Flags().GetString("file-name")
-		apiDetials.HCEEndpoint, err = cmd.Flags().GetString("hce-endpoint")
-		apiDetials.ProjectID, err = cmd.Flags().GetString("project-id")
-		apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
-		apiDetials.AccessKey, err = cmd.Flags().GetString("access-key")
-		apiDetials.AccessID, err = cmd.Flags().GetString("access-id")
-		apiDetials.API, err = cmd.Flags().GetString("api")
+		apiDetials.FileName, _ = cmd.Flags().GetString("file-name")
+		apiDetials.AccoundID, _ = cmd.Flags().GetString("account-id")
+		apiDetials.ProjectID, _ = cmd.Flags().GetString("project-id")
+		apiDetials.WorkflowID, _ = cmd.Flags().GetString("workflow-id")
+		apiDetials.ApiKey, _ = cmd.Flags().GetString("api-key")
+		apiDetials.API, _ = cmd.Flags().GetString("api")
 
 		switch api {
 		case "launch-experiment":
@@ -81,11 +80,10 @@ func init() {
 	rootCmd.AddCommand(LaunchChaos)
 
 	LaunchChaos.Flags().String("api", "", "Set the name of target api")
-	LaunchChaos.Flags().String("hce-endpoint", "", "Set the hce-endpoint for the given HCE")
+	LaunchChaos.Flags().String("account-id", "", "Set the account-id for the given HCE")
 	LaunchChaos.Flags().String("project-id", "", "Set the hce project id")
 	LaunchChaos.Flags().String("workflow-id", "", "Set the workflow id")
-	LaunchChaos.Flags().String("access-key", "", "Set the access key")
-	LaunchChaos.Flags().String("access-id", "", "Set the access id")
+	LaunchChaos.Flags().String("api-key", "", "Set the api key")
 	LaunchChaos.Flags().String("file-name", "", "The target file name which contains the API command")
 	LaunchChaos.Flags().String("delay", "2", "The delay provided for multiple iteration")
 	LaunchChaos.Flags().String("retries", "180", "The timeout provided for multiple iteration")

@@ -1,9 +1,8 @@
 package types
 
 type APIDetials struct {
-	HCEEndpoint             string
-	AccessKey               string
-	AccessID                string
+	AccoundID               string
+	ApiKey                  string
 	ProjectID               string
 	WorkflowID              string
 	FileName                string
