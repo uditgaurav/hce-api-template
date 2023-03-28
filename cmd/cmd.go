@@ -81,6 +81,7 @@ func init() {
 
 	LaunchChaos.Flags().String("api", "", "Set the name of target api")
 	LaunchChaos.Flags().String("project-id", "", "Set the hce project id")
+	LaunchChaos.Flags().String("account-id", "", "Set the account id")
 	LaunchChaos.Flags().String("workflow-id", "", "Set the workflow id")
 	LaunchChaos.Flags().String("api-key", "", "Set the api key")
 	LaunchChaos.Flags().String("file-name", "", "The target file name which contains the API command")
