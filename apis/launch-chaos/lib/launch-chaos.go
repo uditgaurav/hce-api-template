@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 
 	"os/exec"
@@ -30,8 +31,14 @@ func LaunchChaos(apiDetials types.APIDetials, mode string) error {
 		fmt.Println("Error:", err)
 		return err
 	}
-	
-	fmt.Println(string(output))
+
+	// fmt.Println(string(output))
+	// Create a new file with the name from apiDetails.Output and dump the output
+	if err := ioutil.WriteFile(apiDetials.Output, output, 0644); err != nil {
+		fmt.Println("Failed to write to output file:", err)
+		return err
+	}
+
 	return nil
 }
 

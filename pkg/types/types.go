@@ -2,7 +2,7 @@ package types
 
 type APIDetials struct {
 	AccoundID               string
-	NotifyID           string
+	NotifyID                string
 	ApiKey                  string
 	ProjectID               string
 	WorkflowID              string
@@ -12,4 +12,5 @@ type APIDetials struct {
 	Delay                   string
 	Timeout                 string
 	ExpectedResilienceScore int
+	Output                  string
 }
