@@ -21,11 +21,15 @@ var LaunchChaos = &cobra.Command{
 	Example: "./hce-api-saas generate --api launch-experiment --account-id=cTU1lRSWS2KWNV9phKvuOA --project-id ChaosTestinProd2 --workflow-id f4581780-efaf-4155-956e-6c379f24394b --api-key nEdGNDDrTFHyCnl --file-name hce-api.sh",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		apiDetials := types.APIDetials{}
+		APIDetails := types.APIDetails{}
 		mode := common.CheckMode()
 		var api string
 
-		configFile, _ := cmd.Flags().GetString("config")
+		configFile, err := cmd.Flags().GetString("config")
+		if err != nil {
+			fmt.Println("Error in extracting config file: ", err)
+			os.Exit(1)
+		}
 		if configFile != "" {
 			file, err := os.Open(configFile)
 			if err != nil {
@@ -44,14 +48,16 @@ var LaunchChaos = &cobra.Command{
 
 			// Assuming you want to use the first element in the JSON array
 			if len(config) > 0 {
-				apiDetials.ApiKey = config[0].ApiKey
-				apiDetials.AccoundID = config[0].AccountId
-				apiDetials.ProjectID = config[0].ProjectId
-				apiDetials.WorkflowID = config[0].WorkflowId
+				APIDetails.ApiKey = config[0].ApiKey
+				APIDetails.AccoundID = config[0].AccountId
+				APIDetails.ProjectID = config[0].ProjectId
+				APIDetails.WorkflowID = config[0].WorkflowId
 				api = config[0].API
-				apiDetials.FileName = config[0].FileName
-				apiDetials.Output = config[0].Output
-				apiDetials.NotifyID = config[0].NotifyID
+				APIDetails.FileName = config[0].FileName
+				APIDetails.Output = config[0].Output
+				APIDetails.NotifyID = config[0].NotifyID
+				APIDetails.Timeout = config[0].Timeout
+				APIDetails.Delay = config[0].Delay
 			}
 		} else {
 
@@ -62,27 +68,31 @@ var LaunchChaos = &cobra.Command{
 				os.Exit(1)
 			}
 
-			apiDetials.FileName, err = cmd.Flags().GetString("file-name")
+			APIDetails.FileName, err = cmd.Flags().GetString("file-name")
 			if err != nil {
 				fmt.Println(err)
 			}
-			apiDetials.AccoundID, err = cmd.Flags().GetString("account-id")
+			APIDetails.AccoundID, err = cmd.Flags().GetString("account-id")
 			if err != nil {
 				fmt.Println(err)
 			}
-			apiDetials.ProjectID, err = cmd.Flags().GetString("project-id")
+			APIDetails.ProjectID, err = cmd.Flags().GetString("project-id")
 			if err != nil {
 				fmt.Println(err)
 			}
-			apiDetials.WorkflowID, err = cmd.Flags().GetString("workflow-id")
+			APIDetails.WorkflowID, err = cmd.Flags().GetString("workflow-id")
 			if err != nil {
 				fmt.Println(err)
 			}
-			apiDetials.ApiKey, err = cmd.Flags().GetString("api-key")
+			APIDetails.ApiKey, err = cmd.Flags().GetString("api-key")
 			if err != nil {
 				fmt.Println(err)
 			}
-			apiDetials.API, err = cmd.Flags().GetString("api")
+			APIDetails.API, err = cmd.Flags().GetString("api")
+			if err != nil {
+				fmt.Println(err)
+			}
+			APIDetails.Output, err = cmd.Flags().GetString("output")
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -91,28 +101,33 @@ var LaunchChaos = &cobra.Command{
 		switch api {
 		case "launch-experiment":
 
-			if err := launchChaos.LaunchChaos(apiDetials, mode); err != nil {
+			if err := launchChaos.LaunchChaos(APIDetails, mode); err != nil {
 				fmt.Printf("fail to create template file with API to launch experiment, err: %v,", err)
 				os.Exit(1)
 			}
 			os.Exit(0)
 
 		case "monitor-experiment":
-			apiDetials.Delay, _ = cmd.Flags().GetString("delay")
-			apiDetials.Timeout, _ = cmd.Flags().GetString("timeout")
-			apiDetials.NotifyID, _ = cmd.Flags().GetString("notifyID")
 
-			if err := monitorChaos.MonitorChaosExperiment(apiDetials, mode); err != nil {
+			configFile, _ := cmd.Flags().GetString("config")
+			if configFile == "" {
+				APIDetails.Delay, _ = cmd.Flags().GetString("delay")
+				APIDetails.Timeout, _ = cmd.Flags().GetString("timeout")
+				APIDetails.NotifyID, _ = cmd.Flags().GetString("notifyID")
+			}
+			if err := monitorChaos.MonitorChaosExperiment(APIDetails, mode); err != nil {
 				fmt.Printf("monitor chaos failed, err: %v,", err)
 				os.Exit(1)
 			}
 			os.Exit(0)
 
 		case "validate-resilience-score":
+			configFile, _ := cmd.Flags().GetString("config")
 
-			// apiDetials.NotifyID, _ = cmd.Flags().GetString("notifyID")
-
-			if err := validateRR.ValidateResilienceScore(apiDetials, mode); err != nil {
+			if configFile == "" {
+				APIDetails.NotifyID, _ = cmd.Flags().GetString("notifyID")
+			}
+			if err := validateRR.ValidateResilienceScore(APIDetails, mode); err != nil {
 				fmt.Printf("fail to create template file with API to validate resilience score of the workflow, err: %v,", err)
 				os.Exit(1)
 			}
@@ -141,7 +156,7 @@ func init() {
 	LaunchChaos.Flags().String("delay", "2", "The delay provided for multiple iteration")
 	LaunchChaos.Flags().String("timeout", "180", "The timeout provided for multiple iteration")
 	LaunchChaos.Flags().String("config", "", "Path to the JSON config file")
-
+	LaunchChaos.Flags().String("output", "", "To store the JSON output in a File")
 }
 func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
@@ -156,4 +171,6 @@ type JSONConfig struct {
 	FileName   string `json:"fileName"`
 	Output     string `json:"output"`
 	NotifyID   string `json:"notifyId"`
+	Delay      string `json:"delay"`
+	Timeout    string `json:"timeout"`
 }

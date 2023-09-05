@@ -38,19 +38,19 @@ func WriteCmdToFile(fileName, cmd string) error {
 }
 
 // ValidateAPITunables will validate the inputs used to prepare the api command
-func ValidateAPITunables(ApiDetials types.APIDetials) error {
+func ValidateAPITunables(APIDetails types.APIDetails) error {
 
-	if strings.TrimSpace(ApiDetials.AccoundID) == "" {
+	if strings.TrimSpace(APIDetails.AccoundID) == "" {
 		return errors.Errorf("Account ID can't be empty, please provide a valid account id")
 	}
-	if strings.TrimSpace(ApiDetials.ProjectID) == "" {
+	if strings.TrimSpace(APIDetails.ProjectID) == "" {
 		return errors.Errorf("ProjectID can't be empty. %v", VariableNotFoundError)
 
 	}
-	if strings.TrimSpace(ApiDetials.WorkflowID) == "" {
+	if strings.TrimSpace(APIDetails.WorkflowID) == "" {
 		return errors.Errorf("WorkflowID can't be empty %v", VariableNotFoundError)
 	}
-	if strings.TrimSpace(ApiDetials.ApiKey) == "" {
+	if strings.TrimSpace(APIDetails.ApiKey) == "" {
 		return errors.Errorf("AccessKey can't be empty %v", VariableNotFoundError)
 
 	}
@@ -59,31 +59,31 @@ func ValidateAPITunables(ApiDetials types.APIDetials) error {
 }
 
 // GetAPITunablesForExperimentExecution will get the values to prepare api command in interactive mode
-func GetAPITunablesForExperimentExecution(ApiDetials types.APIDetials) types.APIDetials {
+func GetAPITunablesForExperimentExecution(APIDetails types.APIDetails) types.APIDetails {
 
 	fmt.Print("Provide the HCE AccoundID: ")
-	fmt.Scanf("%s", &ApiDetials.AccoundID)
+	fmt.Scanf("%s", &APIDetails.AccoundID)
 	fmt.Print("Provide the Project ID: ")
-	fmt.Scanf("%s", &ApiDetials.ProjectID)
+	fmt.Scanf("%s", &APIDetails.ProjectID)
 	fmt.Print("Provide the Workflow ID: ")
-	fmt.Scanf("%s", &ApiDetials.WorkflowID)
+	fmt.Scanf("%s", &APIDetails.WorkflowID)
 	fmt.Print("Provide the HCE ApiKey: ")
-	fmt.Scanf("%s", &ApiDetials.ApiKey)
+	fmt.Scanf("%s", &APIDetails.ApiKey)
 	fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")
-	fmt.Scanf("%s", &ApiDetials.FileName)
+	fmt.Scanf("%s", &APIDetails.FileName)
 	fmt.Print("Provide the delay[Default 2]: ")
-	fmt.Scanf("%s", &ApiDetials.Delay)
+	fmt.Scanf("%s", &APIDetails.Delay)
 	fmt.Print("Provide the timeout [Default 180]: ")
-	fmt.Scanf("%s", &ApiDetials.Timeout)
+	fmt.Scanf("%s", &APIDetails.Timeout)
 
-	if ApiDetials.Delay == "" {
-		ApiDetials.Delay = "2"
+	if APIDetails.Delay == "" {
+		APIDetails.Delay = "2"
 	}
-	if ApiDetials.Timeout == "" {
-		ApiDetials.Timeout = "180"
+	if APIDetails.Timeout == "" {
+		APIDetails.Timeout = "180"
 	}
 
-	return ApiDetials
+	return APIDetails
 }
 
 // CheckMode will derive the mode user has selected
@@ -96,4 +96,20 @@ func CheckMode() string {
 		mode = "intractive"
 	}
 	return mode
+}
+
+func CheckFile(APIDetails types.APIDetails) (string, error) {
+
+	if APIDetails.FileName == "" {
+		APIDetails.FileName = "hce-api.sh"
+	}
+	_, err := os.Stat(APIDetails.FileName)
+
+	if os.IsNotExist(err) {
+		_, err := os.Create(APIDetails.FileName)
+		if err != nil {
+			return APIDetails.FileName, err
+		}
+	}
+	return APIDetails.FileName, nil
 }

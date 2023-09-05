@@ -1,6 +1,6 @@
 package types
 
-type APIDetials struct {
+type APIDetails struct {
 	AccoundID               string
 	NotifyID                string
 	ApiKey                  string

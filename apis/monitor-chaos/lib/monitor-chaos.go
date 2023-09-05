@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"bytes"
 	"fmt"
 	"strconv"
 	"strings"
@@ -15,14 +16,26 @@ import (
 )
 
 // MonitorChaosExperimenrt will prepare the api command to get the experiment status and monitor it for the timeout duration
-func MonitorChaosExperiment(apiDetials types.APIDetials, mode string) error {
+func MonitorChaosExperiment(APIDetails types.APIDetails, mode string) error {
 
-	if err := ApiToMonitorExperiment(apiDetials, mode); err != nil {
+	var err error
+	APIDetails.FileName, err = common.CheckFile(APIDetails)
+	if err != nil {
+		return err
+	}
+	if err := ApiToMonitorExperiment(APIDetails, mode); err != nil {
 		return errors.Errorf("fail to create template file with API to monitor experiment, err: %v,", err)
 	}
 
-	delay, _ := strconv.Atoi(apiDetials.Delay)
-	timeout, _ := strconv.Atoi(apiDetials.Timeout)
+	delay, _ := strconv.Atoi(APIDetails.Delay)
+	timeout, _ := strconv.Atoi(APIDetails.Timeout)
+
+	if delay == 0 {
+		delay = 2
+	}
+	if timeout == 0 {
+		timeout = 180
+	}
 
 	fmt.Printf("The timeout: %v and delay: %v \n", timeout, delay)
 
@@ -31,40 +44,42 @@ func MonitorChaosExperiment(apiDetials types.APIDetials, mode string) error {
 		Wait(time.Duration(delay) * time.Second).
 		Try(func(attempt uint) error {
 
-			cmd := exec.Command("bash", apiDetials.FileName)
+			var stdout, stderr bytes.Buffer
+			cmd := exec.Command("bash", APIDetails.FileName)
+			cmd.Stdout = &stdout
+			cmd.Stderr = &stderr
 
-			output, err := cmd.CombinedOutput()
+			err := cmd.Run()
+
 			if err != nil {
-				fmt.Println("Error:", err)
+				fmt.Println("Error:", stderr.String())
 				return err
 			}
-			if strings.TrimSpace(string(output)) != "Completed" && strings.TrimSpace(string(output)) !=  "Stopped" {
-				fmt.Printf("Waiting for experiment completion... CurrentState: %v", string(output))
-				return errors.Errorf("Waiting for experiment completion... CurrentState: %v", string(output))
+			if strings.TrimSpace(stdout.String()) != "Completed" && strings.TrimSpace(stdout.String()) != "Stopped" {
+				fmt.Printf("Waiting for experiment completion... CurrentState: %v", stdout.String())
+				return errors.Errorf("Waiting for experiment completion... CurrentState: %v", stdout.String())
 			}
-			fmt.Printf("Experiment completed, CurrentState: %v", string(output))
+			fmt.Printf("Experiment completed, CurrentState: %v", stdout.String())
 			return nil
 		})
 }
 
 // ApiToMonitorExperiment will prepare api command to get the workflow status
-func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
+func ApiToMonitorExperiment(APIDetails types.APIDetails, mode string) error {
 
 	if mode == "intractive" {
-		ApiDetials = getAPITunablesForExperimentExecution(ApiDetials)
+		APIDetails = getAPITunablesForExperimentExecution(APIDetails)
 	}
-	if err := common.ValidateAPITunables(ApiDetials); err != nil {
+	if err := common.ValidateAPITunables(APIDetails); err != nil {
 		return err
 	}
-
-	
 
 	cmdOutput := fmt.Sprintf(`
 	curl -s --location 'https://app.harness.io/gateway/chaos/manager/api/query?accountIdentifier=%v' \
 	--header 'x-api-key: %v' \
 	--header 'Content-Type: application/json' \
-	--data '{"query":"query ListWorkflowRun(\n  $identifiers: IdentifiersRequest!,\n  $request: ListWorkflowRunRequest!\n) {\n  listWorkflowRun(\n    identifiers: $identifiers,\n    request: $request\n  ) {\n    totalNoOfWorkflowRuns\n    workflowRuns {\n      identifiers {\n          orgIdentifier\n          projectIdentifier\n          accountIdentifier\n      }\n      workflowRunID\n      workflowID\n      weightages {\n        experimentName\n        weightage\n      }\n      updatedAt\n      createdAt\n      infra {\n        infraID\n        infraNamespace\n        infraScope\n        isActive\n        isInfraConfirmed\n      }\n      workflowName\n      workflowManifest\n      phase\n      resiliencyScore\n      experimentsPassed\n      experimentsFailed\n      experimentsAwaited\n      experimentsStopped\n      experimentsNa\n      totalExperiments\n      executionData\n      isRemoved\n      updatedBy {\n        userID\n        username\n      }\n      createdBy {\n        username\n        userID\n      }\n    }\n  }\n}","variables":{"identifiers":{"orgIdentifier":"default","accountIdentifier":"%v","projectIdentifier":"%v"},"request":{"notifyIDs":["%v"]}}}' --compressed | jq -r '.data.listWorkflowRun.workflowRuns[0].phase'`, ApiDetials.AccoundID, ApiDetials.ApiKey, ApiDetials.AccoundID, ApiDetials.ProjectID, ApiDetials.NotifyID)
-	if err := common.WriteCmdToFile(ApiDetials.FileName, cmdOutput); err != nil {
+	--data '{"query":"query ListWorkflowRun(\n  $identifiers: IdentifiersRequest!,\n  $request: ListWorkflowRunRequest!\n) {\n  listWorkflowRun(\n    identifiers: $identifiers,\n    request: $request\n  ) {\n    totalNoOfWorkflowRuns\n    workflowRuns {\n      identifiers {\n          orgIdentifier\n          projectIdentifier\n          accountIdentifier\n      }\n      workflowRunID\n      workflowID\n      weightages {\n        experimentName\n        weightage\n      }\n      updatedAt\n      createdAt\n      infra {\n        infraID\n        infraNamespace\n        infraScope\n        isActive\n        isInfraConfirmed\n      }\n      workflowName\n      workflowManifest\n      phase\n      resiliencyScore\n      experimentsPassed\n      experimentsFailed\n      experimentsAwaited\n      experimentsStopped\n      experimentsNa\n      totalExperiments\n      executionData\n      isRemoved\n      updatedBy {\n        userID\n        username\n      }\n      createdBy {\n        username\n        userID\n      }\n    }\n  }\n}","variables":{"identifiers":{"orgIdentifier":"default","accountIdentifier":"%v","projectIdentifier":"%v"},"request":{"notifyIDs":["%v"]}}}' --compressed | jq -r '.data.listWorkflowRun.workflowRuns[0].phase'`, APIDetails.AccoundID, APIDetails.ApiKey, APIDetails.AccoundID, APIDetails.ProjectID, APIDetails.NotifyID)
+	if err := common.WriteCmdToFile(APIDetails.FileName, cmdOutput); err != nil {
 		return err
 	}
 	fmt.Println("The file containing the API command is created successfully")
@@ -73,31 +88,31 @@ func ApiToMonitorExperiment(ApiDetials types.APIDetials, mode string) error {
 }
 
 // getAPITunablesForExperimentExecution will get the values to prepare api command in interactive mode
-func getAPITunablesForExperimentExecution(ApiDetials types.APIDetials) types.APIDetials {
+func getAPITunablesForExperimentExecution(APIDetails types.APIDetails) types.APIDetails {
 
 	fmt.Print("Provide the account id: ")
-	fmt.Scanf("%s", &ApiDetials.AccoundID)
+	fmt.Scanf("%s", &APIDetails.AccoundID)
 	fmt.Print("Provide the Project ID: ")
-	fmt.Scanf("%s", &ApiDetials.ProjectID)
+	fmt.Scanf("%s", &APIDetails.ProjectID)
 	fmt.Print("Provide the Workflow ID: ")
-	fmt.Scanf("%s", &ApiDetials.WorkflowID)
+	fmt.Scanf("%s", &APIDetails.WorkflowID)
 	fmt.Print("Provide the NotifyID: ")
-	fmt.Scanf("%s", &ApiDetials.NotifyID)
+	fmt.Scanf("%s", &APIDetails.NotifyID)
 	fmt.Print("Provide the api key: ")
-	fmt.Scanf("%s", &ApiDetials.ApiKey)
+	fmt.Scanf("%s", &APIDetails.ApiKey)
 	fmt.Print("Provide the File Name for API [Default is hce-api.sh]: ")
-	fmt.Scanf("%s", &ApiDetials.FileName)
+	fmt.Scanf("%s", &APIDetails.FileName)
 	fmt.Print("Provide the delay[Default 2]: ")
-	fmt.Scanf("%s", &ApiDetials.Delay)
+	fmt.Scanf("%s", &APIDetails.Delay)
 	fmt.Print("Provide the timeout [Default 180]: ")
-	fmt.Scanf("%s", &ApiDetials.Timeout)
+	fmt.Scanf("%s", &APIDetails.Timeout)
 
-	if ApiDetials.Delay == "" {
-		ApiDetials.Delay = "2"
+	if APIDetails.Delay == "" {
+		APIDetails.Delay = "2"
 	}
-	if ApiDetials.Timeout == "" {
-		ApiDetials.Timeout = "180"
+	if APIDetails.Timeout == "" {
+		APIDetails.Timeout = "180"
 	}
 
-	return ApiDetials
+	return APIDetails
 }

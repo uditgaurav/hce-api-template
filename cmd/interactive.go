@@ -14,7 +14,7 @@ import (
 // ExecuteIntractive will run the command in intractive mode
 func ExecuteIntractive() {
 	var api int
-	apiDetials := types.APIDetials{}
+	APIDetails := types.APIDetails{}
 
 	options := `
 	Provide the index number to create a file with the API command from the given options.
@@ -35,18 +35,18 @@ func ExecuteIntractive() {
 
 	case 1:
 
-		if err := launchChaos.LaunchChaos(apiDetials, "intractive"); err != nil {
+		if err := launchChaos.LaunchChaos(APIDetails, "intractive"); err != nil {
 			fmt.Printf("fail to create template file with API to launch experiment, err: %v,", err)
 			os.Exit(1)
 		}
 
 	case 2:
-		if err := monitorChaos.MonitorChaosExperiment(apiDetials, "intractive"); err != nil {
+		if err := monitorChaos.MonitorChaosExperiment(APIDetails, "intractive"); err != nil {
 			fmt.Printf("manitor chaos experiment failed, err: %v,", err)
 			os.Exit(1)
 		}
 	case 3:
-		if err := validateRR.ValidateResilienceScore(apiDetials, "intractive"); err != nil {
+		if err := validateRR.ValidateResilienceScore(APIDetails, "intractive"); err != nil {
 			fmt.Printf("fail to create template file with API to monitor experiment, err: %v,", err)
 			os.Exit(1)
 		}
